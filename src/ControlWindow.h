@@ -7,6 +7,7 @@
 #include <QtWidgets>
 #include <QString>
 #include <QWidget>
+#include <QPushButton>
 #include "RobotThread.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,10 +25,18 @@ class ControlWindow : public QWidget
 public:
     ControlWindow(int argc, char** argv, QWidget * parent = 0);
 
-    RobotThread m_RobotThread;
+    Q_SLOT void startGUI();
+    Q_SLOT void updateEEStateDisplay(double x, double y, double z);
+
 
 private:
+
     Ui::Widget *ui;
+
+    bool m_GUI = false;
+
+    RobotThread m_RobotThread;
+
 };// end class ControlWindow
 }// end namespace
 #endif //CONTROL_WINDOW_H
