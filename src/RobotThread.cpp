@@ -44,6 +44,8 @@ bool RobotThread::init()
 
     EEpublisher = nh.advertise<geometry_msgs::Pose>("/control_arm_node/arm/command/pose", 100);
 
+    
+
     startPositionControllerClient = nh.serviceClient<std_srvs::Trigger>("/control_arm_node/controllers/start_position_controllers");
     startPositionControllerClient1 = nh.serviceClient<std_srvs::Trigger>("/control_arm_node/controllers/start_joint_trajectory_controller");
     startPositionControllerClient2 = nh.serviceClient<std_srvs::Trigger>("/control_arm_node/controllers/start_joint_group_position_controller");
@@ -79,10 +81,10 @@ void RobotThread::jointStates(const sensor_msgs::JointState &msg){
     pMutex->lock();
     state1 = msg.position[0];
     state2 = msg.position[1];
-    state3 = round(msg.position[2]);
-    state4 = round(msg.position[3]);
-    state5 = round(msg.position[4]);
-    state6 = round(msg.position[5]);
+    state3 = msg.position[2];
+    state4 = msg.position[3];
+    state5 = msg.position[4];
+    state6 = msg.position[5];
     pMutex->unlock();
 
     delete pMutex;
@@ -98,11 +100,17 @@ void RobotThread::run()
     {
         pMutex = new QMutex();
 
-        std_msgs::Float64 msg1;
+        // std_msgs::Float64 msg1;
         geometry_msgs::Pose EEmsg;
 
         pMutex->lock();
-        msg1.data = data;
+
+        // if(manualInfo){
+        //     msg1.data = newdata;
+        // }else{
+        //     msg1.data = data;
+        // }
+
         EEmsg.position.x = positionx;
         EEmsg.position.y = positiony;
         EEmsg.position.z = positionz;
@@ -110,23 +118,10 @@ void RobotThread::run()
         EEmsg.orientation.y = orientationy;
         EEmsg.orientation.z = orientationz;
         EEmsg.orientation.w = orientationw;
+
         pMutex->unlock();
 
         EEpublisher.publish(EEmsg);
-
-        if(joint_number=="q1"){
-            positioner1.publish(msg1);
-        }else if(joint_number=="q2"){
-            positioner2.publish(msg1);
-        }else if(joint_number=="q3"){
-            positioner3.publish(msg1);
-        }else if(joint_number=="q4"){
-            positioner4.publish(msg1);
-        }else if(joint_number=="q5"){
-            positioner5.publish(msg1);
-        }else if(joint_number=="q6"){
-            positioner6.publish(msg1);
-        }
         
         ros::spinOnce();
         ROS_INFO("[RobotThread] Running...");
@@ -138,9 +133,27 @@ void RobotThread::run()
 void RobotThread::setPositions(double x){
 
     QMutex * pMutex = new QMutex();
+    std_msgs::Float64 msg1;
 
     pMutex->lock();
+
     data = x;
+    msg1.data = data;
+
+
+    if(joint_number=="q1"){
+        positioner1.publish(msg1);
+    }else if(joint_number=="q2"){
+        positioner2.publish(msg1);
+    }else if(joint_number=="q3"){
+        positioner3.publish(msg1);
+    }else if(joint_number=="q4"){
+        positioner4.publish(msg1);
+    }else if(joint_number=="q5"){
+        positioner5.publish(msg1);
+    }else if(joint_number=="q6"){
+        positioner6.publish(msg1);
+    }
     pMutex->unlock();
 
     delete pMutex;
@@ -182,6 +195,88 @@ void RobotThread::setEEstates(double x, double y, double z, double ox, double oy
 
     delete pMutex;
 
+}
+
+void RobotThread::jointUp(){
+    QMutex * pMutex = new QMutex();
+    std_msgs::Float64 msg1;
+
+    if(manualInfo){
+        pMutex->lock();
+        if(joint_number=="q1"){
+            newdata = state1 + 0.01;
+            msg1.data = newdata;
+            positioner1.publish(msg1);
+        }else if(joint_number=="q2"){
+            newdata = state2 + 0.01;
+            msg1.data = newdata;
+            positioner2.publish(msg1);
+        }else if(joint_number=="q3"){
+            newdata = state3 + 0.01;
+            msg1.data = newdata;
+            positioner3.publish(msg1);
+        }else if(joint_number=="q4"){
+            newdata = state4 + 0.01;
+            msg1.data = newdata;
+            positioner4.publish(msg1);
+        }else if(joint_number=="q5"){
+            newdata = state5 + 0.01;
+            msg1.data = newdata;
+            positioner5.publish(msg1);
+        }else if(joint_number=="q6"){
+            newdata = state6 + 0.01;
+            msg1.data = newdata;
+            positioner6.publish(msg1);
+        }
+        pMutex->unlock();
+    }
+    delete pMutex;
+}
+
+void RobotThread::jointDown(){
+    QMutex * pMutex = new QMutex();
+    std_msgs::Float64 msg1;
+
+
+    if(manualInfo){
+        pMutex->lock();
+        if(joint_number=="q1"){
+            newdata = state1 - 0.01;
+            msg1.data = newdata;
+            positioner1.publish(msg1);
+        }else if(joint_number=="q2"){
+            newdata = state2 - 0.01;
+            msg1.data = newdata;
+            positioner2.publish(msg1);
+        }else if(joint_number=="q3"){
+            newdata = state3 - 0.01;
+            msg1.data = newdata;
+            positioner3.publish(msg1);
+        }else if(joint_number=="q4"){
+            newdata = state4 - 0.01;
+            msg1.data = newdata;
+            positioner4.publish(msg1);
+        }else if(joint_number=="q5"){
+            newdata = state5 - 0.01;
+            msg1.data = newdata;
+            positioner5.publish(msg1);
+        }else if(joint_number=="q6"){
+            newdata = state6 - 0.01;
+            msg1.data = newdata;
+            positioner6.publish(msg1);
+        }
+        pMutex->unlock();
+    }
+
+    delete pMutex;
+}
+
+void RobotThread::manualinfo(bool manual){
+    QMutex * pMutex = new QMutex();
+    pMutex->lock();
+    manualInfo = manual;
+    pMutex->unlock();
+    delete pMutex;
 }
 
 double RobotThread::getData(){return data;}

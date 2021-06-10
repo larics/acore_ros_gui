@@ -31,12 +31,32 @@ namespace server{
 
         connect(ui->pushButton, &QPushButton::clicked, this, &ControlWindow::getEEstate);
 
+        connect(ui->up, &QPushButton::pressed, this, &ControlWindow::upJoint);
+        connect(ui->down, &QPushButton::pressed, this, &ControlWindow::downJoint);
+        connect(ui->manualOn, &QPushButton::clicked, this, &ControlWindow::startManual);
+        connect(ui->manualOff, &QPushButton::clicked, this, &ControlWindow::stopManual);
+
+        ui->up->setAutoRepeat(true);
+        ui->down->setAutoRepeat(true);
+
         m_RobotThread.init();
 
     } // end contstructor
 
     void ControlWindow::startGUI(){
         m_GUI = true;
+    }
+
+    void ControlWindow::startManual(){
+        manual = true;
+        ui->onoff->setText("ON");
+        m_RobotThread.manualinfo(manual);
+    }
+
+    void ControlWindow::stopManual(){
+        manual = false;
+        ui->onoff->setText("OFF");
+        m_RobotThread.manualinfo(manual);
     }
 
     void ControlWindow::updateEEStateDisplay(double x, double y, double z) {
@@ -127,7 +147,18 @@ namespace server{
     }
 
     void ControlWindow::sendJointInfo(){m_RobotThread.setJoint(number);}
-    void ControlWindow::setJointControl(){m_RobotThread.setJointCtrl();}
-    void ControlWindow::setToolControl(){m_RobotThread.setToolCtrl();}
+
+    void ControlWindow::setJointControl(){
+        m_RobotThread.setJointCtrl();
+        ui->controlstatus->setText("Joint control running...");
+    }
+    void ControlWindow::setToolControl(){
+        m_RobotThread.setToolCtrl();
+        ui->controlstatus->setText("Tool control running...");
+    }
+
+    // //arrows
+    void ControlWindow::upJoint(){m_RobotThread.jointUp();}
+    void ControlWindow::downJoint(){m_RobotThread.jointDown();}
 
 }

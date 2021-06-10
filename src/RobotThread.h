@@ -44,6 +44,10 @@ public:
 
     Q_SLOT void setEEstates(double, double, double, double, double, double, double);
 
+    Q_SLOT void jointUp();
+    Q_SLOT void jointDown();
+    Q_SLOT void manualinfo(bool);
+
     double getData();
 
 private:
@@ -85,6 +89,9 @@ private:
     double orientationy;
     double orientationz;
     double orientationw;
+
+    double newdata;
+    bool manualInfo;
 
 };
 #endif //ACORE_ROS_GUI_ROBOTTHREAD_H

@@ -37,6 +37,10 @@ public:
     Q_SLOT void setToolControl();
     Q_SLOT void setJointControl();
     Q_SLOT void getEEstate();
+    Q_SLOT void upJoint();
+    Q_SLOT void downJoint();
+    Q_SLOT void startManual();
+    Q_SLOT void stopManual();
 
 
 private:
@@ -44,6 +48,7 @@ private:
     Ui::Widget *ui;
 
     bool m_GUI = false;
+    bool manual = false;
 
     RobotThread m_RobotThread;
 

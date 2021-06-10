@@ -58,14 +58,9 @@ public:
     QLabel *joint4_value;
     QLabel *joint5_value;
     QLabel *joint6_value;
-    QWidget *layoutWidget3;
-    QHBoxLayout *horizontalLayout_4;
-    QPushButton *startButton;
-    QPushButton *toolControl;
-    QPushButton *jointControl;
     QLabel *label_11;
     QLabel *label_20;
-    QWidget *layoutWidget4;
+    QWidget *layoutWidget3;
     QVBoxLayout *verticalLayout_6;
     QLabel *label_19;
     QHBoxLayout *horizontalLayout_5;
@@ -86,15 +81,33 @@ public:
     QLineEdit *orientationz;
     QLineEdit *orientationw;
     QPushButton *pushButton;
+    QWidget *layoutWidget4;
+    QVBoxLayout *verticalLayout_8;
+    QHBoxLayout *horizontalLayout_6;
+    QPushButton *manualOn;
+    QPushButton *manualOff;
+    QVBoxLayout *verticalLayout_7;
+    QPushButton *up;
+    QPushButton *down;
+    QWidget *layoutWidget5;
+    QHBoxLayout *horizontalLayout_7;
+    QLabel *label_23;
+    QLabel *onoff;
+    QLabel *controlstatus;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *startButton;
+    QPushButton *toolControl;
+    QPushButton *jointControl;
 
     void setupUi(QWidget *Widget)
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QStringLiteral("Widget"));
-        Widget->resize(800, 600);
+        Widget->resize(1032, 600);
         label = new QLabel(Widget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(70, 380, 181, 17));
+        label->setGeometry(QRect(70, 380, 201, 17));
         lineEdit = new QLineEdit(Widget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
         lineEdit->setGeometry(QRect(460, 210, 113, 23));
@@ -227,40 +240,19 @@ public:
 
         verticalLayout_3->addWidget(joint6_value);
 
-        layoutWidget3 = new QWidget(Widget);
-        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
-        layoutWidget3->setGeometry(QRect(240, 40, 254, 25));
-        horizontalLayout_4 = new QHBoxLayout(layoutWidget3);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        startButton = new QPushButton(layoutWidget3);
-        startButton->setObjectName(QStringLiteral("startButton"));
-
-        horizontalLayout_4->addWidget(startButton);
-
-        toolControl = new QPushButton(layoutWidget3);
-        toolControl->setObjectName(QStringLiteral("toolControl"));
-
-        horizontalLayout_4->addWidget(toolControl);
-
-        jointControl = new QPushButton(layoutWidget3);
-        jointControl->setObjectName(QStringLiteral("jointControl"));
-
-        horizontalLayout_4->addWidget(jointControl);
-
         label_11 = new QLabel(Widget);
         label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(460, 330, 141, 16));
+        label_11->setGeometry(QRect(460, 330, 171, 16));
         label_20 = new QLabel(Widget);
         label_20->setObjectName(QStringLiteral("label_20"));
         label_20->setGeometry(QRect(460, 150, 121, 16));
-        layoutWidget4 = new QWidget(Widget);
-        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
-        layoutWidget4->setGeometry(QRect(61, 80, 236, 253));
-        verticalLayout_6 = new QVBoxLayout(layoutWidget4);
+        layoutWidget3 = new QWidget(Widget);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(61, 80, 236, 253));
+        verticalLayout_6 = new QVBoxLayout(layoutWidget3);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
         verticalLayout_6->setContentsMargins(0, 0, 0, 0);
-        label_19 = new QLabel(layoutWidget4);
+        label_19 = new QLabel(layoutWidget3);
         label_19->setObjectName(QStringLiteral("label_19"));
 
         verticalLayout_6->addWidget(label_19);
@@ -269,37 +261,37 @@ public:
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        label_12 = new QLabel(layoutWidget4);
+        label_12 = new QLabel(layoutWidget3);
         label_12->setObjectName(QStringLiteral("label_12"));
 
         verticalLayout_5->addWidget(label_12);
 
-        label_13 = new QLabel(layoutWidget4);
+        label_13 = new QLabel(layoutWidget3);
         label_13->setObjectName(QStringLiteral("label_13"));
 
         verticalLayout_5->addWidget(label_13);
 
-        label_14 = new QLabel(layoutWidget4);
+        label_14 = new QLabel(layoutWidget3);
         label_14->setObjectName(QStringLiteral("label_14"));
 
         verticalLayout_5->addWidget(label_14);
 
-        label_15 = new QLabel(layoutWidget4);
+        label_15 = new QLabel(layoutWidget3);
         label_15->setObjectName(QStringLiteral("label_15"));
 
         verticalLayout_5->addWidget(label_15);
 
-        label_16 = new QLabel(layoutWidget4);
+        label_16 = new QLabel(layoutWidget3);
         label_16->setObjectName(QStringLiteral("label_16"));
 
         verticalLayout_5->addWidget(label_16);
 
-        label_17 = new QLabel(layoutWidget4);
+        label_17 = new QLabel(layoutWidget3);
         label_17->setObjectName(QStringLiteral("label_17"));
 
         verticalLayout_5->addWidget(label_17);
 
-        label_18 = new QLabel(layoutWidget4);
+        label_18 = new QLabel(layoutWidget3);
         label_18->setObjectName(QStringLiteral("label_18"));
 
         verticalLayout_5->addWidget(label_18);
@@ -309,37 +301,37 @@ public:
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        posex = new QLineEdit(layoutWidget4);
+        posex = new QLineEdit(layoutWidget3);
         posex->setObjectName(QStringLiteral("posex"));
 
         verticalLayout_4->addWidget(posex);
 
-        posey = new QLineEdit(layoutWidget4);
+        posey = new QLineEdit(layoutWidget3);
         posey->setObjectName(QStringLiteral("posey"));
 
         verticalLayout_4->addWidget(posey);
 
-        posez = new QLineEdit(layoutWidget4);
+        posez = new QLineEdit(layoutWidget3);
         posez->setObjectName(QStringLiteral("posez"));
 
         verticalLayout_4->addWidget(posez);
 
-        orientationx = new QLineEdit(layoutWidget4);
+        orientationx = new QLineEdit(layoutWidget3);
         orientationx->setObjectName(QStringLiteral("orientationx"));
 
         verticalLayout_4->addWidget(orientationx);
 
-        orientationy = new QLineEdit(layoutWidget4);
+        orientationy = new QLineEdit(layoutWidget3);
         orientationy->setObjectName(QStringLiteral("orientationy"));
 
         verticalLayout_4->addWidget(orientationy);
 
-        orientationz = new QLineEdit(layoutWidget4);
+        orientationz = new QLineEdit(layoutWidget3);
         orientationz->setObjectName(QStringLiteral("orientationz"));
 
         verticalLayout_4->addWidget(orientationz);
 
-        orientationw = new QLineEdit(layoutWidget4);
+        orientationw = new QLineEdit(layoutWidget3);
         orientationw->setObjectName(QStringLiteral("orientationw"));
 
         verticalLayout_4->addWidget(orientationw);
@@ -350,10 +342,86 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_5);
 
-        pushButton = new QPushButton(layoutWidget4);
+        pushButton = new QPushButton(layoutWidget3);
         pushButton->setObjectName(QStringLiteral("pushButton"));
 
         verticalLayout_6->addWidget(pushButton);
+
+        layoutWidget4 = new QWidget(Widget);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(780, 210, 211, 121));
+        verticalLayout_8 = new QVBoxLayout(layoutWidget4);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        verticalLayout_8->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        manualOn = new QPushButton(layoutWidget4);
+        manualOn->setObjectName(QStringLiteral("manualOn"));
+
+        horizontalLayout_6->addWidget(manualOn);
+
+        manualOff = new QPushButton(layoutWidget4);
+        manualOff->setObjectName(QStringLiteral("manualOff"));
+
+        horizontalLayout_6->addWidget(manualOff);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_6);
+
+        verticalLayout_7 = new QVBoxLayout();
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        up = new QPushButton(layoutWidget4);
+        up->setObjectName(QStringLiteral("up"));
+
+        verticalLayout_7->addWidget(up);
+
+        down = new QPushButton(layoutWidget4);
+        down->setObjectName(QStringLiteral("down"));
+
+        verticalLayout_7->addWidget(down);
+
+
+        verticalLayout_8->addLayout(verticalLayout_7);
+
+        layoutWidget5 = new QWidget(Widget);
+        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(840, 180, 131, 17));
+        horizontalLayout_7 = new QHBoxLayout(layoutWidget5);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalLayout_7->setContentsMargins(0, 0, 0, 0);
+        label_23 = new QLabel(layoutWidget5);
+        label_23->setObjectName(QStringLiteral("label_23"));
+
+        horizontalLayout_7->addWidget(label_23);
+
+        onoff = new QLabel(layoutWidget5);
+        onoff->setObjectName(QStringLiteral("onoff"));
+
+        horizontalLayout_7->addWidget(onoff);
+
+        controlstatus = new QLabel(Widget);
+        controlstatus->setObjectName(QStringLiteral("controlstatus"));
+        controlstatus->setGeometry(QRect(660, 30, 241, 23));
+        widget = new QWidget(Widget);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(393, 32, 254, 25));
+        horizontalLayout_4 = new QHBoxLayout(widget);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        startButton = new QPushButton(widget);
+        startButton->setObjectName(QStringLiteral("startButton"));
+
+        horizontalLayout_4->addWidget(startButton);
+
+        toolControl = new QPushButton(widget);
+        toolControl->setObjectName(QStringLiteral("toolControl"));
+
+        horizontalLayout_4->addWidget(toolControl);
+
+        jointControl = new QPushButton(widget);
+        jointControl->setObjectName(QStringLiteral("jointControl"));
+
+        horizontalLayout_4->addWidget(jointControl);
 
 
         retranslateUi(Widget);
@@ -364,7 +432,7 @@ public:
     void retranslateUi(QWidget *Widget)
     {
         Widget->setWindowTitle(QApplication::translate("Widget", "Widget", Q_NULLPTR));
-        label->setText(QApplication::translate("Widget", "End effector position display", Q_NULLPTR));
+        label->setText(QApplication::translate("Widget", "<b>End effector position display", Q_NULLPTR));
         publishButton->setText(QApplication::translate("Widget", "publish joint state", Q_NULLPTR));
         comboBox->clear();
         comboBox->insertItems(0, QStringList()
@@ -393,12 +461,9 @@ public:
         joint4_value->setText(QApplication::translate("Widget", "TextLabel", Q_NULLPTR));
         joint5_value->setText(QApplication::translate("Widget", "TextLabel", Q_NULLPTR));
         joint6_value->setText(QApplication::translate("Widget", "TextLabel", Q_NULLPTR));
-        startButton->setText(QApplication::translate("Widget", "Start GUI", Q_NULLPTR));
-        toolControl->setText(QApplication::translate("Widget", "tool control", Q_NULLPTR));
-        jointControl->setText(QApplication::translate("Widget", "joint control", Q_NULLPTR));
-        label_11->setText(QApplication::translate("Widget", "Joint positions display", Q_NULLPTR));
-        label_20->setText(QApplication::translate("Widget", "Joint positions", Q_NULLPTR));
-        label_19->setText(QApplication::translate("Widget", "End effector position", Q_NULLPTR));
+        label_11->setText(QApplication::translate("Widget", "<b>Joint positions display", Q_NULLPTR));
+        label_20->setText(QApplication::translate("Widget", "<b>Joint positions", Q_NULLPTR));
+        label_19->setText(QApplication::translate("Widget", "<b>End effector position", Q_NULLPTR));
         label_12->setText(QApplication::translate("Widget", "                   x =", Q_NULLPTR));
         label_13->setText(QApplication::translate("Widget", "                   y =", Q_NULLPTR));
         label_14->setText(QApplication::translate("Widget", "                   z = ", Q_NULLPTR));
@@ -407,6 +472,16 @@ public:
         label_17->setText(QApplication::translate("Widget", "quaternion z = ", Q_NULLPTR));
         label_18->setText(QApplication::translate("Widget", "quaternion w = ", Q_NULLPTR));
         pushButton->setText(QApplication::translate("Widget", "publish pose", Q_NULLPTR));
+        manualOn->setText(QApplication::translate("Widget", "manual on ", Q_NULLPTR));
+        manualOff->setText(QApplication::translate("Widget", "manual off", Q_NULLPTR));
+        up->setText(QApplication::translate("Widget", "up", Q_NULLPTR));
+        down->setText(QApplication::translate("Widget", "down", Q_NULLPTR));
+        label_23->setText(QApplication::translate("Widget", "<b> status:", Q_NULLPTR));
+        onoff->setText(QApplication::translate("Widget", "on/off", Q_NULLPTR));
+        controlstatus->setText(QApplication::translate("Widget", "control status", Q_NULLPTR));
+        startButton->setText(QApplication::translate("Widget", "Start GUI", Q_NULLPTR));
+        toolControl->setText(QApplication::translate("Widget", "tool control", Q_NULLPTR));
+        jointControl->setText(QApplication::translate("Widget", "joint control", Q_NULLPTR));
     } // retranslateUi
 
 };
