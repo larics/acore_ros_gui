@@ -22,3 +22,12 @@ rosrun acore_ros_gui acore_gui_ros_ctl
 
 You can use following [docker](https://github.com/larics/docker_files/tree/master/ros-melodic/moveit_schunk_ros) to create environment which contains everything for 
 further GUI development (simulation + qt components). 
+
+
+## TODO: 
+
+- [ ] Check logic between switching for tool/joint control 
+- [ ] Check how we handle control with arrows 
+- [ ] Check publishing pose command on joints
+
+
