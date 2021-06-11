@@ -22,3 +22,14 @@ rosrun acore_ros_gui acore_gui_ros_ctl
 
 You can use following [docker](https://github.com/larics/docker_files/tree/master/ros-melodic/moveit_schunk_ros) to create environment which contains everything for 
 further GUI development (simulation + qt components). 
+
+## TODO: 
+
+- [ ] Fix *joint control* button (DO NOT SEND COMMANDS WITHOUT BUTTON CLICK) 
+- [ ] Add 1 button for each joint (Q1 send, Q2 send, slight implementation change) 
+- [ ] Add STOP button for calling driver halt 
+- [ ] Add config file to enable changing topic names to enable usage with differnet arms 
+- [ ] Check why planning works all the time? 
+- [ ] Fix ctrl + C not getting out of GUI 
+- [ ] Why joystick sends command all the time 
+- [ ] NOT IMPORTANT: VISUALIZATION TECHNIQUES
