@@ -14,30 +14,33 @@ namespace server{
         setWindowTitle(tr("ControlWindow"));
 
         // Connecting eePositionFetchButton with updateEEDisplay method, every other button should have same connection
-        connect(ui->startButton, &QPushButton::clicked, this, &ControlWindow::startGUI);
-        // connect(ui->loaButton, &QPushButton::clicked, this, &ControlWindow::getPositions);
-        // connect(ui->loaButton, &QPushButton::clicked, this, &ControlWindow::getJointNumber);
+        connect(ui->enableGUIButton, &QPushButton::clicked, this, &ControlWindow::startGUI);
 
-        connect(ui->publishButton, &QPushButton::clicked, this, &ControlWindow::getPositions);
-        connect(ui->publishButton, &QPushButton::clicked, this, &ControlWindow::getJointNumber);
-        // connect(ui->publishButton, &QPushButton::clicked, this, &ControlWindow::sendPositions);
-        connect(ui->publishButton, &QPushButton::clicked, this, &ControlWindow::sendJointInfo);
+        //publishanje joint state GOTOVO
+        connect(ui->q1SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition1);
+        connect(ui->q2SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition2);
+        connect(ui->q3SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition3);
+        connect(ui->q4SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition4);
+        connect(ui->q5SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition5);
+        connect(ui->q6SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition6);
         
         connect(&m_RobotThread, &RobotThread::newEEPose, this, &ControlWindow::updateEEStateDisplay);
         connect(&m_RobotThread, &RobotThread::newJointPose, this, &ControlWindow::updateJointStateDisplay);
 
-        connect(ui->toolControl, &QPushButton::clicked, this, &ControlWindow::setToolControl);
-        connect(ui->jointControl, &QPushButton::clicked, this, &ControlWindow::setJointControl);
+        //na koji nacin kontroliramo manipulator GOTOVO (možda jedino promjeniti lavel u koji se posta)
+        connect(ui->trajCtlEnableButton, &QPushButton::clicked, this, &ControlWindow::setToolControl);
+        connect(ui->jointCtlEnableButton, &QPushButton::clicked, this, &ControlWindow::setJointControl);
 
-        connect(ui->pushButton, &QPushButton::clicked, this, &ControlWindow::getEEstate);
+        //publishanje ee GOTOVO
+        connect(ui->trajSendCmdButton, &QPushButton::clicked, this, &ControlWindow::getEEstate);
 
-        connect(ui->up, &QPushButton::pressed, this, &ControlWindow::upJoint);
-        connect(ui->down, &QPushButton::pressed, this, &ControlWindow::downJoint);
-        connect(ui->manualOn, &QPushButton::clicked, this, &ControlWindow::startManual);
-        connect(ui->manualOff, &QPushButton::clicked, this, &ControlWindow::stopManual);
+        // connect(ui->up, &QPushButton::pressed, this, &ControlWindow::upJoint);
+        // connect(ui->down, &QPushButton::pressed, this, &ControlWindow::downJoint);
+        // connect(ui->manualOn, &QPushButton::clicked, this, &ControlWindow::startManual);
+        // connect(ui->manualOff, &QPushButton::clicked, this, &ControlWindow::stopManual);
 
-        ui->up->setAutoRepeat(true);
-        ui->down->setAutoRepeat(true);
+        // ui->up->setAutoRepeat(true);
+        // ui->down->setAutoRepeat(true);
 
         m_RobotThread.init();
 
@@ -47,32 +50,39 @@ namespace server{
         m_GUI = true;
     }
 
-    void ControlWindow::startManual(){
-        manual = true;
-        ui->onoff->setText("ON");
-        m_RobotThread.manualinfo(manual);
-    }
+    // void ControlWindow::startManual(){
+    //     manual = true;
+    //     ui->onoff->setText("ON");
+    //     m_RobotThread.manualinfo(manual);
+    // }
 
-    void ControlWindow::stopManual(){
-        manual = false;
-        ui->onoff->setText("OFF");
-        m_RobotThread.manualinfo(manual);
-    }
+    // void ControlWindow::stopManual(){
+    //     manual = false;
+    //     ui->onoff->setText("OFF");
+    //     m_RobotThread.manualinfo(manual);
+    // }
 
-    void ControlWindow::updateEEStateDisplay(double x, double y, double z) {
-        QString xPosition, yPosition, zPosition;
+    void ControlWindow::updateEEStateDisplay(double x, double y, double z, double yaw, double pitch, double roll) {
+        QString xPosition, yPosition, zPosition, yaws, pitchs, rolls;
         QString connectionWarning("start GUI.");
         xPosition.setNum(x, 'f', 2); yPosition.setNum(y, 'f', 2); zPosition.setNum(z, 'f', 2);
+        yaws.setNum(yaw, 'f', 2); rolls.setNum(roll, 'f', 2); pitchs.setNum(pitch, 'f', 2);
         if (m_GUI)
         {
-            ui->ee_XLabel->setText(xPosition);
-            ui->ee_YLabel->setText(yPosition);
-            ui->ee_ZLabel->setText(zPosition);
+            ui->xPositionLabel->setText(xPosition);
+            ui->yPositionLabel->setText(yPosition);
+            ui->zPositionLabel->setText(zPosition);
+            ui->rollOrientationLabel->setText(rolls);
+            ui->pitchOrientationLabel->setText(pitchs);
+            ui->yawOrientationLabel->setText(yaws);
         }
         else{
-            ui->ee_XLabel->setText(connectionWarning);
-            ui->ee_YLabel->setText(connectionWarning);
-            ui->ee_ZLabel->setText(connectionWarning);
+            ui->xPositionLabel->setText(connectionWarning);
+            ui->yPositionLabel->setText(connectionWarning);
+            ui->zPositionLabel->setText(connectionWarning);
+            ui->rollOrientationLabel->setText(connectionWarning);
+            ui->pitchOrientationLabel->setText(connectionWarning);
+            ui->yawOrientationLabel->setText(connectionWarning);
         }
 
     }
@@ -86,50 +96,34 @@ namespace server{
         QString connectionWarning("Start GUI");
 
         if(m_GUI){
-            ui->joint1_value->setText(state1disp);
-            ui->joint2_value->setText(state2disp);
-            ui->joint3_value->setText(state3disp);
-            ui->joint4_value->setText(state4disp);
-            ui->joint5_value->setText(state5disp);
-            ui->joint6_value->setText(state6disp);
+            ui->q1PositionLabel->setText(state1disp);
+            ui->q2PositionLabel->setText(state2disp);
+            ui->q3PositionLabel->setText(state3disp);
+            ui->q4PositionLabel->setText(state4disp);
+            ui->q5PositionLabel->setText(state5disp);
+            ui->q6PositionLabel->setText(state6disp);
         }else{
-            ui->joint1_value->setText(connectionWarning);
-            ui->joint2_value->setText(connectionWarning);
-            ui->joint3_value->setText(connectionWarning);
-            ui->joint4_value->setText(connectionWarning);
-            ui->joint5_value->setText(connectionWarning);
-            ui->joint6_value->setText(connectionWarning);
+            ui->q1PositionLabel->setText(connectionWarning);
+            ui->q2PositionLabel->setText(connectionWarning);
+            ui->q3PositionLabel->setText(connectionWarning);
+            ui->q4PositionLabel->setText(connectionWarning);
+            ui->q5PositionLabel->setText(connectionWarning);
+            ui->q6PositionLabel->setText(connectionWarning);
         }
 
     }
     
     // reading from lineEdits and sending info to RobotThread
-    void ControlWindow::getPositions(){
-        QString pos1;
-        pos1 = ui->lineEdit->text();
-        pos1f = pos1.toFloat();
-        if(pos1f>3.14 || pos1f<-3.14){
-            QMessageBox::warning(this, "Radian input","Position must be in radians");
-        }
-        else{
-            m_RobotThread.setPositions(pos1f);
-        }
-    }
-
-    void ControlWindow::getJointNumber(){
-        // QString number;
-        number = ui->comboBox->currentText();
-    }
 
     void ControlWindow::getEEstate(){
         QString x, y, z, orix, oriy, oriz, oriw;
-        x = ui->posex->text();
-        y = ui->posey->text();
-        z = ui->posez->text();
-        orix = ui->orientationx->text();
-        oriy = ui->orientationy->text();
-        oriz = ui->orientationz->text();
-        oriw = ui->orientationw->text();
+        x = ui->trajCtlLineEditX->text();
+        y = ui->trajCtlLineEditY->text();
+        z = ui->trajCtlLineEditZ->text();
+        orix = ui->trajCtlLineEditqX->text();
+        oriy = ui->trajCtlLineEditqY->text();
+        oriz = ui->trajCtlLineEditqZ->text();
+        oriw = ui->trajCtlLineEditqW->text();
         xf = x.toFloat();
         yf = y.toFloat();
         zf = z.toFloat();
@@ -146,19 +140,93 @@ namespace server{
 
     }
 
-    void ControlWindow::sendJointInfo(){m_RobotThread.setJoint(number);}
+    // void ControlWindow::sendJointInfo(){m_RobotThread.setJoint(number);}
 
     void ControlWindow::setJointControl(){
         m_RobotThread.setJointCtrl();
-        ui->controlstatus->setText("Joint control running...");
+        ui->ctlModeLabel->setText("Joint control running...");
     }
     void ControlWindow::setToolControl(){
         m_RobotThread.setToolCtrl();
-        ui->controlstatus->setText("Tool control running...");
+        ui->ctlModeLabel->setText("Tool control running...");
     }
 
     // //arrows
-    void ControlWindow::upJoint(){m_RobotThread.jointUp();}
-    void ControlWindow::downJoint(){m_RobotThread.jointDown();}
+    // void ControlWindow::upJoint(){m_RobotThread.jointUp();}
+    // void ControlWindow::downJoint(){m_RobotThread.jointDown();}
+
+    // NOVE FUNKCIJE OVE KOJE KORISTIMO ZA GUI 2.0
+
+    void ControlWindow::getPosition1(){
+        QString pos1;
+        pos1 = ui->q1CmdLineEdit->text();
+        pos1f = pos1.toFloat();
+        if(pos1f>PI || pos1f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPosition1(pos1f);
+        }
+    }
+
+    void ControlWindow::getPosition2(){
+        QString pos2;
+        pos2 = ui->q2LineEdit->text();
+        pos2f = pos2.toFloat();
+        if(pos2f>PI || pos2f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPosition2(pos2f);
+        }
+    }
+
+    void ControlWindow::getPosition3(){
+        QString pos3;
+        pos3 = ui->q3LineEdit->text();
+        pos3f = pos3.toFloat();
+        if(pos3f>PI || pos3f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPosition3(pos3f);
+        }
+    }
+
+    void ControlWindow::getPosition4(){
+        QString pos4;
+        pos4 = ui->q4LineEdit->text();
+        pos4f = pos4.toFloat();
+        if(pos4f>PI || pos4f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPosition4(pos4f);
+        }
+    }
+
+    void ControlWindow::getPosition5(){
+        QString pos5;
+        pos5 = ui->q5LineEdit->text();
+        pos5f = pos5.toFloat();
+        if(pos5f>PI || pos5f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPosition5(pos5f);
+        }
+    }
+
+    void ControlWindow::getPosition6(){
+        QString pos6;
+        pos6 = ui->q6LineEdit->text();
+        pos6f = pos6.toFloat();
+        if(pos6f>PI || pos6f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPosition6(pos6f);
+        }
+    }
 
 }

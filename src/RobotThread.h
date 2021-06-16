@@ -11,6 +11,8 @@
 #include "assert.h"
 #include <QChar>
 
+#include <cmath>
+
 #include <ros/ros.h>
 #include <ros/network.h>
 #include <geometry_msgs/Pose.h>
@@ -33,22 +35,29 @@ public:
 
     Q_SLOT void run();
 
-    Q_SIGNAL void newEEPose(double,double,double,double,double,double,double);
+    Q_SIGNAL void newEEPose(double,double,double,double,double,double);
     Q_SIGNAL void newJointPose(double, double, double, double, double, double);
 
-    Q_SLOT void setPositions(double x); 
-    Q_SLOT void setJoint(QString number);
+    Q_SLOT void setPosition1(double x);
+    Q_SLOT void setPosition2(double x);
+    Q_SLOT void setPosition3(double x);
+    Q_SLOT void setPosition4(double x);
+    Q_SLOT void setPosition5(double x);
+    Q_SLOT void setPosition6(double x);
+
+
+    // Q_SLOT void setJoint(QString number);
 
     Q_SLOT void setJointCtrl();
     Q_SLOT void setToolCtrl();
 
     Q_SLOT void setEEstates(double, double, double, double, double, double, double);
 
-    Q_SLOT void jointUp();
-    Q_SLOT void jointDown();
-    Q_SLOT void manualinfo(bool);
+    // Q_SLOT void jointUp();
+    // Q_SLOT void jointDown();
+    // Q_SLOT void manualinfo(bool);
 
-    double getData();
+    // double getData();
 
 private:
     int m_Init_argc;
@@ -74,12 +83,19 @@ private:
     double m_eeXPos; double m_eeYPos; double m_eeZPos;
     double m_eeXOri; double m_eeYOri; double m_eeZOri; double m_eeWOri;
 
+    double roll; double yaw; double pitch;
+
     double state1; double state2; double state3;
     double state4; double state5; double state6;
 
     std_msgs::Float64 msg1;
+    std_msgs::Float64 msg2;
+    std_msgs::Float64 msg3;
+    std_msgs::Float64 msg4;
+    std_msgs::Float64 msg5;
+    std_msgs::Float64 msg6;
     double data;
-    QString joint_number;
+    // QString joint_number;
 
     geometry_msgs::Pose EEmsg;
     double positionx;
@@ -90,8 +106,8 @@ private:
     double orientationz;
     double orientationw;
 
-    double newdata;
-    bool manualInfo;
+    // double newdata;
+    // bool manualInfo;
 
 };
 #endif //ACORE_ROS_GUI_ROBOTTHREAD_H
