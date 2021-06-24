@@ -87,16 +87,17 @@ public:
     QSpacerItem *horizontalSpacer_7;
     QLineEdit *q6LineEdit;
     QPushButton *q6SendCmdButton;
+    QPushButton *publishAll;
     QWidget *verticalLayoutWidget_7;
     QVBoxLayout *joyCtlLayout;
     QPushButton *joyCtlButton;
     QHBoxLayout *radioButtonJointLayout;
     QRadioButton *q1RadioButton;
-    QRadioButton *q3RadioButton;
     QRadioButton *q2RadioButton;
-    QRadioButton *q6RadioButton;
-    QRadioButton *q5RadioButton;
+    QRadioButton *q3RadioButton;
     QRadioButton *q4RadioButton;
+    QRadioButton *q5RadioButton;
+    QRadioButton *q6RadioButton;
     QHBoxLayout *horizontalSliderLayout;
     QLabel *horizontalSliderMinLabel;
     QSlider *horizontalSlider;
@@ -109,8 +110,8 @@ public:
     QRadioButton *radioButtonX;
     QRadioButton *radioButtonY;
     QRadioButton *radioButtonZ;
-    QPushButton *servoToolCtlDownButton;
     QPushButton *servoToolCtlUpButton;
+    QPushButton *servoToolCtlDownButton;
     QLabel *currentChoosenAxisPositionLabel;
     QPushButton *servoToolCtlButtonPublish;
     QWidget *horizontalLayoutWidget_12;
@@ -250,7 +251,7 @@ public:
 
         verticalLayoutWidget_6 = new QWidget(armTab);
         verticalLayoutWidget_6->setObjectName(QStringLiteral("verticalLayoutWidget_6"));
-        verticalLayoutWidget_6->setGeometry(QRect(260, 20, 261, 413));
+        verticalLayoutWidget_6->setGeometry(QRect(260, 20, 261, 416));
         jointCtlLayout = new QVBoxLayout(verticalLayoutWidget_6);
         jointCtlLayout->setObjectName(QStringLiteral("jointCtlLayout"));
         jointCtlLayout->setContentsMargins(0, 0, 0, 0);
@@ -408,6 +409,11 @@ public:
 
         jointCtlLayout->addWidget(q6SendCmdButton);
 
+        publishAll = new QPushButton(verticalLayoutWidget_6);
+        publishAll->setObjectName(QStringLiteral("publishAll"));
+
+        jointCtlLayout->addWidget(publishAll);
+
         verticalLayoutWidget_7 = new QWidget(armTab);
         verticalLayoutWidget_7->setObjectName(QStringLiteral("verticalLayoutWidget_7"));
         verticalLayoutWidget_7->setGeometry(QRect(540, 20, 331, 211));
@@ -426,30 +432,30 @@ public:
 
         radioButtonJointLayout->addWidget(q1RadioButton);
 
-        q3RadioButton = new QRadioButton(verticalLayoutWidget_7);
-        q3RadioButton->setObjectName(QStringLiteral("q3RadioButton"));
-
-        radioButtonJointLayout->addWidget(q3RadioButton);
-
         q2RadioButton = new QRadioButton(verticalLayoutWidget_7);
         q2RadioButton->setObjectName(QStringLiteral("q2RadioButton"));
 
         radioButtonJointLayout->addWidget(q2RadioButton);
 
-        q6RadioButton = new QRadioButton(verticalLayoutWidget_7);
-        q6RadioButton->setObjectName(QStringLiteral("q6RadioButton"));
+        q3RadioButton = new QRadioButton(verticalLayoutWidget_7);
+        q3RadioButton->setObjectName(QStringLiteral("q3RadioButton"));
 
-        radioButtonJointLayout->addWidget(q6RadioButton);
+        radioButtonJointLayout->addWidget(q3RadioButton);
+
+        q4RadioButton = new QRadioButton(verticalLayoutWidget_7);
+        q4RadioButton->setObjectName(QStringLiteral("q4RadioButton"));
+
+        radioButtonJointLayout->addWidget(q4RadioButton);
 
         q5RadioButton = new QRadioButton(verticalLayoutWidget_7);
         q5RadioButton->setObjectName(QStringLiteral("q5RadioButton"));
 
         radioButtonJointLayout->addWidget(q5RadioButton);
 
-        q4RadioButton = new QRadioButton(verticalLayoutWidget_7);
-        q4RadioButton->setObjectName(QStringLiteral("q4RadioButton"));
+        q6RadioButton = new QRadioButton(verticalLayoutWidget_7);
+        q6RadioButton->setObjectName(QStringLiteral("q6RadioButton"));
 
-        radioButtonJointLayout->addWidget(q4RadioButton);
+        radioButtonJointLayout->addWidget(q6RadioButton);
 
 
         joyCtlLayout->addLayout(radioButtonJointLayout);
@@ -513,15 +519,15 @@ public:
 
         servoCtlLayout->addLayout(radioButtonAxisLayout);
 
-        servoToolCtlDownButton = new QPushButton(verticalLayoutWidget_8);
-        servoToolCtlDownButton->setObjectName(QStringLiteral("servoToolCtlDownButton"));
-
-        servoCtlLayout->addWidget(servoToolCtlDownButton);
-
         servoToolCtlUpButton = new QPushButton(verticalLayoutWidget_8);
         servoToolCtlUpButton->setObjectName(QStringLiteral("servoToolCtlUpButton"));
 
         servoCtlLayout->addWidget(servoToolCtlUpButton);
+
+        servoToolCtlDownButton = new QPushButton(verticalLayoutWidget_8);
+        servoToolCtlDownButton->setObjectName(QStringLiteral("servoToolCtlDownButton"));
+
+        servoCtlLayout->addWidget(servoToolCtlDownButton);
 
         currentChoosenAxisPositionLabel = new QLabel(verticalLayoutWidget_8);
         currentChoosenAxisPositionLabel->setObjectName(QStringLiteral("currentChoosenAxisPositionLabel"));
@@ -560,7 +566,7 @@ public:
 
         horizontalLayoutWidget_13 = new QWidget(armTab);
         horizontalLayoutWidget_13->setObjectName(QStringLiteral("horizontalLayoutWidget_13"));
-        horizontalLayoutWidget_13->setGeometry(QRect(20, 310, 221, 121));
+        horizontalLayoutWidget_13->setGeometry(QRect(20, 310, 221, 124));
         armInfoLayout = new QHBoxLayout(horizontalLayoutWidget_13);
         armInfoLayout->setObjectName(QStringLiteral("armInfoLayout"));
         armInfoLayout->setContentsMargins(0, 0, 0, 0);
@@ -672,13 +678,14 @@ public:
         q5SendCmdButton->setText(QApplication::translate("Widget", "Publish Q5 command", Q_NULLPTR));
         label_21->setText(QApplication::translate("Widget", "Q6", Q_NULLPTR));
         q6SendCmdButton->setText(QApplication::translate("Widget", "Publish Q6 command", Q_NULLPTR));
+        publishAll->setText(QApplication::translate("Widget", "Publish All", Q_NULLPTR));
         joyCtlButton->setText(QApplication::translate("Widget", "Joystick control", Q_NULLPTR));
         q1RadioButton->setText(QApplication::translate("Widget", "Q1", Q_NULLPTR));
-        q3RadioButton->setText(QApplication::translate("Widget", "Q2", Q_NULLPTR));
-        q2RadioButton->setText(QApplication::translate("Widget", "Q3", Q_NULLPTR));
-        q6RadioButton->setText(QApplication::translate("Widget", "Q4", Q_NULLPTR));
+        q2RadioButton->setText(QApplication::translate("Widget", "Q2", Q_NULLPTR));
+        q3RadioButton->setText(QApplication::translate("Widget", "Q3", Q_NULLPTR));
+        q4RadioButton->setText(QApplication::translate("Widget", "Q4", Q_NULLPTR));
         q5RadioButton->setText(QApplication::translate("Widget", "Q5", Q_NULLPTR));
-        q4RadioButton->setText(QApplication::translate("Widget", "Q6", Q_NULLPTR));
+        q6RadioButton->setText(QApplication::translate("Widget", "Q6", Q_NULLPTR));
         horizontalSliderMinLabel->setText(QApplication::translate("Widget", "q_min", Q_NULLPTR));
         horizontalSliderMaxLabel->setText(QApplication::translate("Widget", "q_max", Q_NULLPTR));
         joyCtlPublishButton->setText(QApplication::translate("Widget", "Publish command", Q_NULLPTR));
@@ -686,8 +693,8 @@ public:
         radioButtonX->setText(QApplication::translate("Widget", "X", Q_NULLPTR));
         radioButtonY->setText(QApplication::translate("Widget", "Y", Q_NULLPTR));
         radioButtonZ->setText(QApplication::translate("Widget", "Z", Q_NULLPTR));
-        servoToolCtlDownButton->setText(QApplication::translate("Widget", "+", Q_NULLPTR));
-        servoToolCtlUpButton->setText(QApplication::translate("Widget", "-", Q_NULLPTR));
+        servoToolCtlUpButton->setText(QApplication::translate("Widget", "+", Q_NULLPTR));
+        servoToolCtlDownButton->setText(QApplication::translate("Widget", "-", Q_NULLPTR));
         currentChoosenAxisPositionLabel->setText(QApplication::translate("Widget", "Print axis value", Q_NULLPTR));
         servoToolCtlButtonPublish->setText(QApplication::translate("Widget", "Publish command", Q_NULLPTR));
         ctlModeLabel->setText(QApplication::translate("Widget", "CONTROL MODE:                                                        ", Q_NULLPTR));

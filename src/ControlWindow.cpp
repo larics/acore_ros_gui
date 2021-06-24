@@ -23,6 +23,7 @@ namespace server{
         connect(ui->q4SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition4);
         connect(ui->q5SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition5);
         connect(ui->q6SendCmdButton, &QPushButton::clicked, this, &ControlWindow::getPosition6);
+        connect(ui->publishAll, &QPushButton::clicked, this, &ControlWindow::getPositions);
         
         connect(&m_RobotThread, &RobotThread::newEEPose, this, &ControlWindow::updateEEStateDisplay);
         connect(&m_RobotThread, &RobotThread::newJointPose, this, &ControlWindow::updateJointStateDisplay);
@@ -30,17 +31,27 @@ namespace server{
         //na koji nacin kontroliramo manipulator GOTOVO (možda jedino promjeniti lavel u koji se posta)
         connect(ui->trajCtlEnableButton, &QPushButton::clicked, this, &ControlWindow::setToolControl);
         connect(ui->jointCtlEnableButton, &QPushButton::clicked, this, &ControlWindow::setJointControl);
+        connect(ui->joyCtlButton, &QPushButton::clicked, this, &ControlWindow::setJoystickControl);
+        connect(ui->servoToolCtlButton, &QPushButton::clicked, this, &ControlWindow::setServoControl);
 
         //publishanje ee GOTOVO
         connect(ui->trajSendCmdButton, &QPushButton::clicked, this, &ControlWindow::getEEstate);
 
-        // connect(ui->up, &QPushButton::pressed, this, &ControlWindow::upJoint);
-        // connect(ui->down, &QPushButton::pressed, this, &ControlWindow::downJoint);
-        // connect(ui->manualOn, &QPushButton::clicked, this, &ControlWindow::startManual);
-        // connect(ui->manualOff, &QPushButton::clicked, this, &ControlWindow::stopManual);
+        //inicijalizacija slidera za svaki zglob posebno
+        connect(ui->q1RadioButton, &QRadioButton::clicked, this, &ControlWindow::sliderinit1);
+        connect(ui->q2RadioButton, &QRadioButton::clicked, this, &ControlWindow::sliderinit2);
+        connect(ui->q3RadioButton, &QRadioButton::clicked, this, &ControlWindow::sliderinit3);
+        connect(ui->q4RadioButton, &QRadioButton::clicked, this, &ControlWindow::sliderinit4);
+        connect(ui->q5RadioButton, &QRadioButton::clicked, this, &ControlWindow::sliderinit5);
+        connect(ui->q6RadioButton, &QRadioButton::clicked, this, &ControlWindow::sliderinit6);
 
-        // ui->up->setAutoRepeat(true);
-        // ui->down->setAutoRepeat(true);
+        //publishanje sa sliderom
+        connect(ui->joyCtlPublishButton, &QPushButton::clicked, this, &ControlWindow::getSliderValue);
+
+        connect(ui->servoToolCtlUpButton, &QPushButton::pressed, this, &ControlWindow::plusPose);
+        connect(ui->servoToolCtlDownButton, &QPushButton::pressed, this, &ControlWindow::minusPose);
+        ui->servoToolCtlUpButton->setAutoRepeat(true);
+        ui->servoToolCtlDownButton->setAutoRepeat(true);
 
         m_RobotThread.init();
 
@@ -144,18 +155,69 @@ namespace server{
 
     void ControlWindow::setJointControl(){
         m_RobotThread.setJointCtrl();
-        ui->ctlModeLabel->setText("Joint control running...");
+        ui->guiModeLabel->setText("Joint control running...");
     }
     void ControlWindow::setToolControl(){
         m_RobotThread.setToolCtrl();
-        ui->ctlModeLabel->setText("Tool control running...");
+        ui->guiModeLabel->setText("Tool control running...");
     }
 
-    // //arrows
-    // void ControlWindow::upJoint(){m_RobotThread.jointUp();}
-    // void ControlWindow::downJoint(){m_RobotThread.jointDown();}
+    void ControlWindow::setJoystickControl(){
+        m_RobotThread.setJoystickCtrl();
+        ui->guiModeLabel->setText("Joystick control running...");
+    }
+
+    void ControlWindow::setServoControl(){
+        m_RobotThread.setToolCtrl();
+        ui->guiModeLabel->setText("Servo control running...");
+    }
+
+    // +/-
+    void ControlWindow::plusPose(){
+        if(ui->radioButtonX->isChecked()){
+            radioServo = 1;
+        }else if(ui->radioButtonY->isChecked()){
+            radioServo = 2;
+        }else if(ui->radioButtonZ->isChecked()){
+            radioServo = 3;
+        }
+        m_RobotThread.posePlus(radioServo);
+    }
+    void ControlWindow::minusPose(){
+        if(ui->radioButtonX->isChecked()){
+            radioServo = 1;
+        }else if(ui->radioButtonY->isChecked()){
+            radioServo = 2;
+        }else if(ui->radioButtonZ->isChecked()){
+            radioServo = 3;
+        }
+        m_RobotThread.poseMinus(radioServo);
+    }
 
     // NOVE FUNKCIJE OVE KOJE KORISTIMO ZA GUI 2.0
+
+    void ControlWindow::getPositions(){
+        QString pos1; QString pos2; QString pos3;
+        QString pos4; QString pos5; QString pos6;
+        pos1 = ui->q1CmdLineEdit->text();
+        pos2 = ui->q2LineEdit->text();
+        pos3 = ui->q3LineEdit->text();
+        pos4 = ui->q4LineEdit->text();
+        pos5 = ui->q5LineEdit->text();
+        pos6 = ui->q6LineEdit->text();
+        pos1f = pos1.toFloat();
+        pos2f = pos2.toFloat();
+        pos3f = pos3.toFloat();
+        pos4f = pos4.toFloat();
+        pos5f = pos5.toFloat();
+        pos6f = pos6.toFloat();
+        if(pos1f>PI || pos1f<-PI || pos2f>PI || pos2f<-PI || pos3f>PI || pos3f<-PI || pos4f>PI || pos4f<-PI || pos5f>PI || pos5f<-PI || pos6f>PI || pos6f<-PI){
+            QMessageBox::warning(this, "Radian input","Position must be in radians");
+        }
+        else{
+            m_RobotThread.setPositions(pos1f, pos2f, pos3f, pos4f, pos5f, pos6f);
+        }
+    }
 
     void ControlWindow::getPosition1(){
         QString pos1;
@@ -227,6 +289,59 @@ namespace server{
         else{
             m_RobotThread.setPosition6(pos6f);
         }
+    }
+
+    void ControlWindow::sliderinit1(){
+        radio_value = 1;
+        ui->horizontalSlider->setMinimum(-100);
+        ui->horizontalSlider->setMaximum(120);
+        ui->horizontalSliderMinLabel->setText("-1.0");
+        ui->horizontalSliderMaxLabel->setText("1.2");
+    }
+
+    void ControlWindow::sliderinit2(){
+        radio_value = 2;
+        ui->horizontalSlider->setMinimum(-200);
+        ui->horizontalSlider->setMaximum(200);
+        ui->horizontalSliderMinLabel->setText("-2.0");
+        ui->horizontalSliderMaxLabel->setText("2.0");
+    }
+
+    void ControlWindow::sliderinit3(){
+        radio_value = 3;
+        ui->horizontalSlider->setMinimum(-300);
+        ui->horizontalSlider->setMaximum(300);
+        ui->horizontalSliderMinLabel->setText("-3.0");
+        ui->horizontalSliderMaxLabel->setText("3.0");
+    }
+
+    void ControlWindow::sliderinit4(){
+        radio_value = 4;
+        ui->horizontalSlider->setMinimum(-1);
+        ui->horizontalSlider->setMaximum(1.2);
+        ui->horizontalSliderMinLabel->setText("-1");
+        ui->horizontalSliderMaxLabel->setText("1.2");
+    }
+
+    void ControlWindow::sliderinit5(){
+        radio_value = 5;
+        ui->horizontalSlider->setMinimum(-1);
+        ui->horizontalSlider->setMaximum(1.2);
+        ui->horizontalSliderMinLabel->setText("-1");
+        ui->horizontalSliderMaxLabel->setText("1.2");
+    }
+
+    void ControlWindow::sliderinit6(){
+        radio_value = 6;
+        ui->horizontalSlider->setMinimum(-1);
+        ui->horizontalSlider->setMaximum(1.2);
+        ui->horizontalSliderMinLabel->setText("-1");
+        ui->horizontalSliderMaxLabel->setText("1.2");
+    }
+
+    void ControlWindow::getSliderValue(){
+        slider_value = ui->horizontalSlider->value()/100.0;
+        m_RobotThread.setSliderValue(slider_value, radio_value);
     }
 
 }

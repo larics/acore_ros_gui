@@ -37,14 +37,24 @@ public:
     Q_SLOT void getPosition4();
     Q_SLOT void getPosition5();
     Q_SLOT void getPosition6();
+    Q_SLOT void getPositions();
     Q_SLOT void setToolControl();
     Q_SLOT void setJointControl();
+    Q_SLOT void setJoystickControl();
+    Q_SLOT void setServoControl();
     Q_SLOT void getEEstate();
+    Q_SLOT void sliderinit1();
+    Q_SLOT void sliderinit2();
+    Q_SLOT void sliderinit3();
+    Q_SLOT void sliderinit4();
+    Q_SLOT void sliderinit5();
+    Q_SLOT void sliderinit6();
+    Q_SLOT void getSliderValue();
 
     // Q_SLOT void getJointNumber();
     // Q_SLOT void sendJointInfo();
-    // Q_SLOT void upJoint();
-    // Q_SLOT void downJoint();
+    Q_SLOT void plusPose();
+    Q_SLOT void minusPose();
     // Q_SLOT void startManual();
     // Q_SLOT void stopManual();
 
@@ -75,6 +85,11 @@ private:
 
     QString pos6;
     double pos6f;
+
+    double  slider_value;
+    int radio_value;
+
+    int radioServo;
 
     // QString number;
 
