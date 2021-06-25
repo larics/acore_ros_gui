@@ -25,6 +25,10 @@
 #include <std_msgs/MultiArrayLayout.h>
 #include <std_msgs/MultiArrayDimension.h>
 
+#include "qfile.h"
+#include "qsettings.h"
+#include <QSettings>
+
 class RobotThread:public QObject {
     Q_OBJECT
 public:
@@ -63,6 +67,8 @@ public:
 
     Q_SLOT void setEEstates(double, double, double, double, double, double, double);
 
+    Q_SLOT void loadSettings(QSettings* settings);
+
     // Q_SLOT void jointUp();
     // Q_SLOT void jointDown();
     // Q_SLOT void manualinfo(bool);
@@ -98,19 +104,33 @@ private:
     double slider;
     int radio;
 
-    std::string ee_position_topic_name = "/control_arm_node/tool/current_pose";
-    std::string joint_states_listener_name = "/lwa4p/joint_states";
-    std::string joint_group_publisher_name = "/lwa4p/joint_group_position_controller/command";
-    std::string ee_publisher_name = "/control_arm_node/arm/command/pose";
-    std::string joint1_publisher_name = "/lwa4p/joint_1_position_controller/command";
-    std::string joint2_publisher_name = "/lwa4p/joint_2_position_controller/command";
-    std::string joint3_publisher_name = "/lwa4p/joint_3_position_controller/command";
-    std::string joint4_publisher_name = "/lwa4p/joint_4_position_controller/command";
-    std::string joint5_publisher_name = "/lwa4p/joint_5_position_controller/command";
-    std::string joint6_publisher_name = "/lwa4p/joint_6_position_controller/command";
-    std::string joystick_control_service_name = "/control_arm_node/controllers/start_position_controllers";
-    std::string tool_control_service_name = "/control_arm_node/controllers/start_joint_trajectory_controller";
-    std::string joint_control_service_name = "/control_arm_node/controllers/start_joint_group_position_controller";
+    // std::string ee_position_topic_name = "/control_arm_node/tool/current_pose";
+    // std::string joint_states_listener_name = "/lwa4p/joint_states";
+    // std::string joint_group_publisher_name = "/lwa4p/joint_group_position_controller/command";
+    // std::string ee_publisher_name = "/control_arm_node/arm/command/pose";
+    // std::string joint1_publisher_name = "/lwa4p/joint_1_position_controller/command";
+    // std::string joint2_publisher_name = "/lwa4p/joint_2_position_controller/command";
+    // std::string joint3_publisher_name = "/lwa4p/joint_3_position_controller/command";
+    // std::string joint4_publisher_name = "/lwa4p/joint_4_position_controller/command";
+    // std::string joint5_publisher_name = "/lwa4p/joint_5_position_controller/command";
+    // std::string joint6_publisher_name = "/lwa4p/joint_6_position_controller/command";
+    // std::string joystick_control_service_name = "/control_arm_node/controllers/start_position_controllers";
+    // std::string tool_control_service_name = "/control_arm_node/controllers/start_joint_trajectory_controller";
+    // std::string joint_control_service_name = "/control_arm_node/controllers/start_joint_group_position_controller";
+
+    std::string m_ee_position_topic_name;
+    std::string m_joint_states_listener_name;
+    std::string m_joint_group_publisher_name;
+    std::string m_ee_publisher_name;
+    std::string m_joint1_publisher_name;
+    std::string m_joint2_publisher_name;
+    std::string m_joint3_publisher_name; 
+    std::string m_joint4_publisher_name;
+    std::string m_joint5_publisher_name;
+    std::string m_joint6_publisher_name;
+    std::string m_joystick_control_service_name; 
+    std::string m_tool_control_service_name;
+    std::string m_joint_control_service_name;
 
     double m_eeXPos; double m_eeYPos; double m_eeZPos;
     double m_eeXOri; double m_eeYOri; double m_eeZOri; double m_eeWOri;

@@ -4,7 +4,15 @@
 RobotThread::RobotThread(int argc, char** pArgv)
     : m_Init_argc(argc),
     m_pInit_argv(pArgv)
-{   /** Constructor for the robot thread **/  }
+{ 
+ /** Constructor for the robot thread **/ 
+QSettings settings(QString("/home/developer/moveit_ws/src/acore_ros_gui/config/config.ini"), QSettings::IniFormat);
+loadSettings(&settings);
+// QVariant e = settings.value(QString("ee_position_topic_name"), e);
+// m_ee_position_topic_name = e.toString().toUtf8().constData();
+// QString s = settings.value("subscribers/ee_position_topic_name", "pimpilinic").toString();
+// m_ee_position_topic_name = s.toUtf8().constData();
+}
 
 RobotThread::~RobotThread()
 {
@@ -31,32 +39,29 @@ bool RobotThread::init()
     ros::Time::init();
     ros::NodeHandle nh;
 
+    //kreiranje QSettingsa
+    QSettings settings(QString("/home/developer/moveit_ws/src/acore_ros_gui/configconfig.ini"), QSettings::IniFormat);
+
     // TODO: Add corresponding subscribers and publishers
-    ee_position_listener = nh.subscribe(ee_position_topic_name, 10, &RobotThread::eePoseCallback, this);
-    state_listener = nh.subscribe(joint_states_listener_name, 10, &RobotThread::jointStates, this);
+    ee_position_listener = nh.subscribe(m_ee_position_topic_name, 10, &RobotThread::eePoseCallback, this);
+    state_listener = nh.subscribe(m_joint_states_listener_name, 10, &RobotThread::jointStates, this);
 
-    // positioner1 = nh.advertise<std_msgs::Float64>("/lwa4p/joint_1_position_controller/command", 100);
-    // positioner2 = nh.advertise<std_msgs::Float64>("/lwa4p/joint_2_position_controller/command", 100);
-    // positioner3 = nh.advertise<std_msgs::Float64>("/lwa4p/joint_3_position_controller/command", 100);
-    // positioner4 = nh.advertise<std_msgs::Float64>("/lwa4p/joint_4_position_controller/command", 100);
-    // positioner5 = nh.advertise<std_msgs::Float64>("/lwa4p/joint_5_position_controller/command", 100);
-    // positioner6 = nh.advertise<std_msgs::Float64>("/lwa4p/joint_6_position_controller/command", 100);
-    groupPublisher = nh.advertise<std_msgs::Float64MultiArray>(joint_group_publisher_name, 100);
+    groupPublisher = nh.advertise<std_msgs::Float64MultiArray>(m_joint_group_publisher_name, 100);
 
-    EEpublisher = nh.advertise<geometry_msgs::Pose>(ee_publisher_name, 100);
+    EEpublisher = nh.advertise<geometry_msgs::Pose>(m_ee_publisher_name, 100);
 
-    joystickpub1 = nh.advertise<std_msgs::Float64>(joint1_publisher_name, 100);
-    joystickpub2 = nh.advertise<std_msgs::Float64>(joint2_publisher_name, 100);
-    joystickpub3 = nh.advertise<std_msgs::Float64>(joint3_publisher_name, 100);
-    joystickpub4 = nh.advertise<std_msgs::Float64>(joint4_publisher_name, 100);
-    joystickpub5 = nh.advertise<std_msgs::Float64>(joint5_publisher_name, 100);
-    joystickpub6 = nh.advertise<std_msgs::Float64>(joint6_publisher_name, 100);
+    joystickpub1 = nh.advertise<std_msgs::Float64>(m_joint1_publisher_name, 100);
+    joystickpub2 = nh.advertise<std_msgs::Float64>(m_joint2_publisher_name, 100);
+    joystickpub3 = nh.advertise<std_msgs::Float64>(m_joint3_publisher_name, 100);
+    joystickpub4 = nh.advertise<std_msgs::Float64>(m_joint4_publisher_name, 100);
+    joystickpub5 = nh.advertise<std_msgs::Float64>(m_joint5_publisher_name, 100);
+    joystickpub6 = nh.advertise<std_msgs::Float64>(m_joint6_publisher_name, 100);
 
     
 
-    startJoystickControlService = nh.serviceClient<std_srvs::Trigger>(joystick_control_service_name);
-    startToolControlService = nh.serviceClient<std_srvs::Trigger>(tool_control_service_name);
-    startJointControlService = nh.serviceClient<std_srvs::Trigger>(joint_control_service_name);
+    startJoystickControlService = nh.serviceClient<std_srvs::Trigger>(m_joystick_control_service_name);
+    startToolControlService = nh.serviceClient<std_srvs::Trigger>(m_tool_control_service_name);
+    startJointControlService = nh.serviceClient<std_srvs::Trigger>(m_joint_control_service_name);
     
 
     m_pThread->start();
@@ -85,6 +90,26 @@ void RobotThread::eePoseCallback(const geometry_msgs::Pose &msg)
     delete pMutex;
     Q_EMIT newEEPose(m_eeXPos, m_eeYPos, m_eeZPos, yaw, pitch, roll);
 }
+
+void RobotThread::loadSettings(QSettings* settings){
+    //load subscriber topics
+    m_ee_position_topic_name = settings->value("subscribers/ee_position_topic_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint_states_listener_name = settings->value("subscribers/joint_states_listener_name", "Error/topic didn't load").toString().toUtf8().constData();
+    //load publisher topics
+    m_joint_group_publisher_name = settings->value("publishers/joint_group_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_ee_publisher_name = settings->value("publishers/ee_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint1_publisher_name = settings->value("publishers/joint1_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint2_publisher_name = settings->value("publishers/joint2_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint3_publisher_name = settings->value("publishers/joint3_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint4_publisher_name = settings->value("publishers/joint4_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint5_publisher_name = settings->value("publishers/joint5_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_joint6_publisher_name = settings->value("publishers/joint6_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    //load service topics
+    m_joystick_control_service_name = settings->value("services/joystick_control_service_name", "Error, service didn't load").toString().toUtf8().constData();
+    m_tool_control_service_name = settings->value("services/tool_control_service_name", "Error, service didn't load").toString().toUtf8().constData();
+    m_joint_control_service_name = settings->value("services/joint_control_service_name", "Error, service didn't load").toString().toUtf8().constData();
+}
+
 
 void RobotThread::jointStates(const sensor_msgs::JointState &msg){
 
