@@ -8,10 +8,9 @@ RobotThread::RobotThread(int argc, char** pArgv)
  /** Constructor for the robot thread **/ 
 QSettings settings(QString("/home/developer/moveit_ws/src/acore_ros_gui/config/config.ini"), QSettings::IniFormat);
 loadSettings(&settings);
-// QVariant e = settings.value(QString("ee_position_topic_name"), e);
-// m_ee_position_topic_name = e.toString().toUtf8().constData();
-// QString s = settings.value("subscribers/ee_position_topic_name", "pimpilinic").toString();
-// m_ee_position_topic_name = s.toUtf8().constData();
+
+QSettings settings2(QString("/home/developer/moveit_ws/src/acore_ros_gui/config/uav_config.ini"), QSettings::IniFormat);
+loadSettings2(&settings2);
 }
 
 RobotThread::~RobotThread()
@@ -39,10 +38,13 @@ bool RobotThread::init()
     ros::Time::init();
     ros::NodeHandle nh;
 
-    //kreiranje QSettingsa
+    //kreiranje QSettings-a za ARM
     QSettings settings(QString("/home/developer/moveit_ws/src/acore_ros_gui/configconfig.ini"), QSettings::IniFormat);
 
-    // TODO: Add corresponding subscribers and publishers
+    //kreiranje QSettings-a za UAV
+    QSettings settings2(QString("/home/developer/moveit_ws/src/acore_ros_gui/configuav_config.ini"), QSettings::IniFormat);
+
+    // Services, publishers and subscribers for Arm
     ee_position_listener = nh.subscribe(m_ee_position_topic_name, 10, &RobotThread::eePoseCallback, this);
     state_listener = nh.subscribe(m_joint_states_listener_name, 10, &RobotThread::jointStates, this);
 
@@ -57,11 +59,58 @@ bool RobotThread::init()
     joystickpub5 = nh.advertise<std_msgs::Float64>(m_joint5_publisher_name, 100);
     joystickpub6 = nh.advertise<std_msgs::Float64>(m_joint6_publisher_name, 100);
 
-    
-
     startJoystickControlService = nh.serviceClient<std_srvs::Trigger>(m_joystick_control_service_name);
     startToolControlService = nh.serviceClient<std_srvs::Trigger>(m_tool_control_service_name);
     startJointControlService = nh.serviceClient<std_srvs::Trigger>(m_joint_control_service_name);
+    
+    //Services, publishers and subscribers for UAV
+
+    pointPublisher = nh.advertise<geometry_msgs::Pose>(m_point_publisher_name,100);
+    uav_position_sub = nh.subscribe(m_uav_position_sub_name, 10, &RobotThread::uavPositions, this);
+    rpyPublisher = nh.advertise<geometry_msgs::Vector3>(m_rpy_publisher_name, 100);
+
+
+    //getting rosparam
+
+    ros::NodeHandle nh1;
+    float joint1_max_position;
+    float joint2_max_position;
+
+    float joint3_max_position;
+    float joint4_max_position;
+
+    float joint5_max_position;
+    float joint6_max_position;
+
+    float joint1_min_position;
+    float joint2_min_position;
+
+    float joint3_min_position;
+    float joint4_min_position;
+
+    float joint5_min_position;
+    float joint6_min_position;
+
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint1/max_velocity", joint1_max_position, 2.947);
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint1/min_position", joint1_min_position, -2.947);
+
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint2/max_position", joint2_max_position, 2.08);
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint2/min_position", joint2_min_position, -2.08);
+
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint3/max_position", joint3_max_position, 2.694);
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint3/min_position", joint3_min_position, -2.694);
+
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint4/max_position", joint4_max_position, 2.08);
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint4/min_position", joint4_min_position, -2.08);
+
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint5/max_position", joint5_max_position, 2.947);
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint5/min_position", joint5_min_position, -2.947);
+
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint6/max_position", joint6_max_position, 2.08);
+    nh1.param<float>("/robot_description_planning/joint_limits/lwa4p_joint6/min_position", joint6_min_position, -2.08);
+
+    Q_EMIT loadparameters(joint1_max_position, joint1_min_position, joint2_max_position, joint2_min_position, joint3_max_position, joint3_min_position,
+    joint4_max_position, joint4_min_position, joint5_max_position, joint5_min_position, joint6_max_position, joint6_min_position);
     
 
     m_pThread->start();
@@ -108,6 +157,17 @@ void RobotThread::loadSettings(QSettings* settings){
     m_joystick_control_service_name = settings->value("services/joystick_control_service_name", "Error, service didn't load").toString().toUtf8().constData();
     m_tool_control_service_name = settings->value("services/tool_control_service_name", "Error, service didn't load").toString().toUtf8().constData();
     m_joint_control_service_name = settings->value("services/joint_control_service_name", "Error, service didn't load").toString().toUtf8().constData();
+
+}
+
+void RobotThread::loadSettings2(QSettings* settings2){
+
+    //load uav subscriber topics
+    m_uav_position_sub_name = settings2->value("subscribers/uav_position_sub_name", "Error/topic didn't load").toString().toUtf8().constData();
+
+    //load uav publisher topics
+    m_rpy_publisher_name = settings2->value("publishers/rpy_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
+    m_point_publisher_name = settings2->value("publishers/point_publisher_name", "Error/topic didn't load").toString().toUtf8().constData();
 }
 
 
@@ -447,7 +507,7 @@ void RobotThread::setSliderValue(double x, int y){
         case 3:
             slider = x;
             msg.data = slider;
-            joystickpub2.publish(msg);
+            joystickpub3.publish(msg);
             break;
         case 4:
             slider = x;
@@ -536,6 +596,97 @@ void RobotThread::poseMinus(int radioServo){
     pMutex->unlock();
     delete pMutex;
 }
+
+//DIO KOJI SE ODNOSI NA UAV-UPRAVLJANJE ------------------------------------------------------------------------------------------
+
+//setUavPointPosition - treba dodati odgovarajuci publisher
+
+void RobotThread::setUavPointPosition(double x, double y, double z, double yaw){
+    QMutex * pMutex = new QMutex();
+    pMutex->lock();
+
+    uav_positionx = x;
+    uav_positiony = y;
+    uav_positionz = z;
+    
+    geometry_msgs::Pose uavPoint_msg;
+
+    uav_roll = 0;
+    uav_pitch = 0;
+
+    uav_qx = sin(roll/2) * cos(pitch/2) * cos(yaw/2) - cos(roll/2) * sin(pitch/2) * sin(yaw/2);
+    uav_qy = cos(roll/2) * sin(pitch/2) * cos(yaw/2) + sin(roll/2) * cos(pitch/2) * sin(yaw/2);
+    uav_qz = cos(roll/2) * cos(pitch/2) * sin(yaw/2) - sin(roll/2) * sin(pitch/2) * cos(yaw/2);
+    uav_qw = cos(roll/2) * cos(pitch/2) * cos(yaw/2) + sin(roll/2) * sin(pitch/2) * sin(yaw/2);
+
+    uavPoint_msg.position.x = uav_positionx;
+    uavPoint_msg.position.y = uav_positiony;
+    uavPoint_msg.position.z = uav_positionz;
+
+    uavPoint_msg.orientation.x = uav_qx;
+    uavPoint_msg.orientation.y = uav_qy;
+    uavPoint_msg.orientation.z = uav_qz;
+    uavPoint_msg.orientation.w = uav_qw;
+    
+
+    pointPublisher.publish(uavPoint_msg);
+
+    pMutex->unlock();
+    delete pMutex;
+}
+
+void RobotThread::uavPositions(const geometry_msgs::PoseStamped &msg){
+
+    QMutex * pMutex = new QMutex();
+
+    pMutex->lock();
+    uav_x_state = msg.pose.position.x;
+    uav_y_state = msg.pose.position.y;
+    uav_z_state = msg.pose.position.z;
+
+    uav_x_ori = msg.pose.orientation.x;
+    uav_y_ori = msg.pose.orientation.y;
+    uav_z_ori = msg.pose.orientation.z;
+    uav_w_ori = msg.pose.orientation.w;
+
+    disp_yaw = atan2(2.0*(uav_x_ori*uav_y_ori + uav_w_ori*uav_z_ori), uav_w_ori*uav_w_ori + uav_x_ori*uav_x_ori - uav_y_ori*uav_y_ori - uav_z_ori*uav_z_ori);
+    disp_pitch = asin(-2.0*(uav_x_ori*uav_z_ori - uav_w_ori*m_eeYOri));
+    disp_roll = atan2(2.0*(uav_y_ori*uav_z_ori + uav_w_ori*uav_x_ori), uav_w_ori*uav_w_ori - uav_x_ori*uav_x_ori - uav_y_ori*uav_y_ori + uav_z_ori*uav_z_ori);
+
+    pMutex->unlock();
+
+    delete pMutex;
+    Q_EMIT uavSubPosition(uav_x_state, uav_y_state, uav_z_state, disp_roll, disp_pitch, disp_yaw);
+
+}
+
+void RobotThread::setUavRPY(double roll, double pitch, double yaw){
+    QMutex * pMutex = new QMutex();
+    pMutex->lock();
+
+    uav_roll = roll;
+    uav_pitch = pitch;
+    uav_yaw = yaw;
+    
+    geometry_msgs::Vector3 uavRPY;
+
+    uavRPY.x = uav_roll;
+    uavRPY.y = uav_pitch;
+    uavRPY.z = uav_yaw;
+    
+    rpyPublisher.publish(uavRPY);
+
+    pMutex->unlock();
+    delete pMutex;
+}
+
+
+
+
+
+
+
+
 
 // void RobotThread::jointUp(){
 //     QMutex * pMutex = new QMutex();

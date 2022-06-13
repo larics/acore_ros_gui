@@ -17,6 +17,7 @@
 #include <ros/ros.h>
 #include <ros/network.h>
 #include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <std_msgs/Float64.h>
 #include <sensor_msgs/JointState.h>
@@ -69,11 +70,22 @@ public:
 
     Q_SLOT void loadSettings(QSettings* settings);
 
+    // Q_SLOT void loadparams();
+    Q_SIGNAL void loadparameters(float, float, float, float, float, float, float, float, float, float, float, float);
+
     // Q_SLOT void jointUp();
     // Q_SLOT void jointDown();
     // Q_SLOT void manualinfo(bool);
 
     // double getData();
+
+    //UAV slots and signals
+
+    Q_SLOT void setUavPointPosition(double, double, double, double);
+    Q_SIGNAL void uavSubPosition(double, double, double, double, double, double);
+    Q_SLOT void setUavRPY(double, double, double);
+
+    Q_SLOT void loadSettings2(QSettings* settings);
 
 private:
     int m_Init_argc;
@@ -83,12 +95,7 @@ private:
 
     ros::Subscriber ee_position_listener;
     ros::Subscriber state_listener;
-    // ros::Publisher positioner1;
-    // ros::Publisher positioner2;
-    // ros::Publisher positioner3;
-    // ros::Publisher positioner4;
-    // ros::Publisher positioner5;
-    // ros::Publisher positioner6;
+   
     ros::Publisher groupPublisher;
     ros::ServiceClient startJoystickControlService;
     ros::ServiceClient startJointControlService;
@@ -104,19 +111,36 @@ private:
     double slider;
     int radio;
 
-    // std::string ee_position_topic_name = "/control_arm_node/tool/current_pose";
-    // std::string joint_states_listener_name = "/lwa4p/joint_states";
-    // std::string joint_group_publisher_name = "/lwa4p/joint_group_position_controller/command";
-    // std::string ee_publisher_name = "/control_arm_node/arm/command/pose";
-    // std::string joint1_publisher_name = "/lwa4p/joint_1_position_controller/command";
-    // std::string joint2_publisher_name = "/lwa4p/joint_2_position_controller/command";
-    // std::string joint3_publisher_name = "/lwa4p/joint_3_position_controller/command";
-    // std::string joint4_publisher_name = "/lwa4p/joint_4_position_controller/command";
-    // std::string joint5_publisher_name = "/lwa4p/joint_5_position_controller/command";
-    // std::string joint6_publisher_name = "/lwa4p/joint_6_position_controller/command";
-    // std::string joystick_control_service_name = "/control_arm_node/controllers/start_position_controllers";
-    // std::string tool_control_service_name = "/control_arm_node/controllers/start_joint_trajectory_controller";
-    // std::string joint_control_service_name = "/control_arm_node/controllers/start_joint_group_position_controller";
+    //UAV dio
+    ros::Publisher pointPublisher;
+    ros::Subscriber uav_position_sub;
+    ros::Publisher rpyPublisher;
+
+    geometry_msgs::Pose uavPoint_msg;
+    double uav_positionx;
+    double uav_positiony;
+    double uav_positionz;
+    double uav_pitch;
+    double uav_roll;
+    double uav_yaw;
+    double uav_qx;
+    double uav_qy;
+    double uav_qz;
+    double uav_qw;
+
+    double uav_x_state; double uav_y_state; double uav_z_state;
+    double uav_x_ori; double uav_y_ori; double uav_z_ori; double uav_w_ori;
+    double disp_roll; double disp_pitch; double disp_yaw;
+
+    
+
+    void uavPositions(const geometry_msgs::PoseStamped &msg);
+
+    std::string m_point_publisher_name;
+    std::string m_rpy_publisher_name;
+    std::string m_uav_position_sub_name;
+
+    //kraj UAV dijela
 
     std::string m_ee_position_topic_name;
     std::string m_joint_states_listener_name;

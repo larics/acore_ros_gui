@@ -30,6 +30,7 @@ public:
     Q_SLOT void startGUI();
     Q_SLOT void updateEEStateDisplay(double x, double y, double z, double yaw, double pitch, double roll);
     Q_SLOT void updateJointStateDisplay(double a, double b, double c, double x, double y, double z);
+    Q_SLOT void setJointLimits(float x1, float x2, float x3, float x4, float x5, float x6, float x7, float x8, float x9, float x10, float x11, float x12);
 
     Q_SLOT void getPosition1();
     Q_SLOT void getPosition2();
@@ -50,6 +51,12 @@ public:
     Q_SLOT void sliderinit5();
     Q_SLOT void sliderinit6();
     Q_SLOT void getSliderValue();
+
+    //UAV
+    Q_SLOT void getPoint();
+    Q_SLOT void updateUavPositionDisplay(double x, double y, double z, double roll, double pitch, double yaw);
+    Q_SLOT void getRPY();
+    //UAV kraj
 
     // Q_SLOT void getJointNumber();
     // Q_SLOT void sendJointInfo();
@@ -100,6 +107,23 @@ private:
     double oriyf;
     double orizf;
     double oriwf;
+    double rollf;
+    double pitchf;
+    double yawf;
+
+    float q1max;
+    float q1min;
+    float q2max;
+    float q2min;
+    float q3max;
+    float q3min;
+    float q4max;
+    float q4min;
+    float q5max;
+    float q5min;
+    float q6max;
+    float q6min;
+
 
 };// end class ControlWindow
 }// end namespace

@@ -28,7 +28,7 @@ namespace server{
         connect(&m_RobotThread, &RobotThread::newEEPose, this, &ControlWindow::updateEEStateDisplay);
         connect(&m_RobotThread, &RobotThread::newJointPose, this, &ControlWindow::updateJointStateDisplay);
 
-        //na koji nacin kontroliramo manipulator GOTOVO (možda jedino promjeniti lavel u koji se posta)
+        //na koji nacin kontroliramo manipulator 
         connect(ui->trajCtlEnableButton, &QPushButton::clicked, this, &ControlWindow::setToolControl);
         connect(ui->jointCtlEnableButton, &QPushButton::clicked, this, &ControlWindow::setJointControl);
         connect(ui->joyCtlButton, &QPushButton::clicked, this, &ControlWindow::setJoystickControl);
@@ -52,6 +52,16 @@ namespace server{
         connect(ui->servoToolCtlDownButton, &QPushButton::pressed, this, &ControlWindow::minusPose);
         ui->servoToolCtlUpButton->setAutoRepeat(true);
         ui->servoToolCtlDownButton->setAutoRepeat(true);
+
+        //getting rosparams
+        connect(&m_RobotThread, &RobotThread::loadparameters, this, &ControlWindow::setJointLimits);
+
+        //UAV dio
+        connect(ui->uav_publish_position, &QPushButton::clicked, this, &ControlWindow::getPoint);
+        connect(&m_RobotThread, &RobotThread::uavSubPosition, this, &ControlWindow::updateUavPositionDisplay);
+
+        connect(ui->uav_angular_publish, &QPushButton::clicked, this, &ControlWindow::getRPY);
+
 
         m_RobotThread.init();
 
@@ -123,6 +133,22 @@ namespace server{
         }
 
     }
+
+    //funkcija za spremanje maximuma i minimuma limita zglobova
+    void ControlWindow::setJointLimits(float x1, float x2, float x3, float x4, float x5, float x6, float x7, float x8, float x9, float x10, float x11, float x12){
+        q1max = x1;
+        q1min = x2;
+        q2max = x3;
+        q2min = x4;
+        q3max = x5;
+        q3min = x6;
+        q4max = x7;
+        q4min = x8;
+        q5max = x9;
+        q5min = x10;
+        q6max = x11;
+        q6min = x12;
+    }
     
     // reading from lineEdits and sending info to RobotThread
 
@@ -150,6 +176,52 @@ namespace server{
         }
 
     }
+
+    //UAV funkcije
+
+    void ControlWindow::getPoint(){
+        QString x, y, z, yaw;
+        x = ui->uav_position_x->text();
+        y = ui->uav_position_y->text();
+        z = ui->uav_position_z->text();
+        yaw = ui->uav_position_yaw->text();
+        xf = x.toFloat();
+        yf = y.toFloat();
+        zf = z.toFloat();
+        yawf = yaw.toFloat();
+
+        m_RobotThread.setUavPointPosition(xf, yf, zf, yawf);
+    }
+
+    void ControlWindow::updateUavPositionDisplay(double x, double y, double z, double roll, double pitch, double yaw){
+
+        QString position_x_disp, position_y_disp, position_z_disp, roll_disp, pitch_disp, yaw_disp;
+        position_x_disp.setNum(x, 'f', 2); position_y_disp.setNum(y, 'f', 2); position_z_disp.setNum(z, 'f', 2);
+        roll_disp.setNum(roll, 'f', 2); pitch_disp.setNum(pitch, 'f', 2); yaw_disp.setNum(yaw, 'f', 2);
+        //QString connectionWarning("Start GUI");
+
+        ui->uav_positionx_value->setText(position_x_disp);
+        ui->uav_positiony_value->setText(position_y_disp);
+        ui->uav_positionz_value->setText(position_z_disp);
+        ui->uav_roll_disp->setText(roll_disp);
+        ui->uav_pitch_disp->setText(pitch_disp);
+        ui->uav_yaw_disp->setText(yaw_disp);
+    }
+
+    void ControlWindow::getRPY(){
+        QString roll, pitch, yaw;
+        roll = ui->uav_angular_roll->text();
+        pitch = ui->uav_angular_pitch->text();
+        yaw = ui->uav_angular_yaw->text();
+        rollf = yaw.toFloat();
+        pitchf = yaw.toFloat();
+        yawf = yaw.toFloat();
+
+        m_RobotThread.setUavRPY(rollf, pitchf, yawf);
+    }
+
+
+    //UAV funkcije kraj
 
     // void ControlWindow::sendJointInfo(){m_RobotThread.setJoint(number);}
 
@@ -293,54 +365,78 @@ namespace server{
 
     void ControlWindow::sliderinit1(){
         radio_value = 1;
-        ui->horizontalSlider->setMinimum(-100);
-        ui->horizontalSlider->setMaximum(120);
-        ui->horizontalSliderMinLabel->setText("-1.0");
-        ui->horizontalSliderMaxLabel->setText("1.2");
+        QString q1mins;
+        QString q1maxs;
+        ui->horizontalSlider->setMinimum(q1min*1000);
+        ui->horizontalSlider->setMaximum(q1max*1000);
+        q1mins.setNum(q1min, 'f', 2);
+        q1maxs.setNum(q1max, 'f', 2);
+        ui->horizontalSliderMinLabel->setText(q1mins);
+        ui->horizontalSliderMaxLabel->setText(q1maxs);
     }
 
     void ControlWindow::sliderinit2(){
         radio_value = 2;
-        ui->horizontalSlider->setMinimum(-200);
-        ui->horizontalSlider->setMaximum(200);
-        ui->horizontalSliderMinLabel->setText("-2.0");
-        ui->horizontalSliderMaxLabel->setText("2.0");
+        QString q2mins;
+        QString q2maxs;
+        ui->horizontalSlider->setMinimum(q2min*1000);
+        ui->horizontalSlider->setMaximum(q2max*1000);
+        q2mins.setNum(q2min, 'f', 2);
+        q2maxs.setNum(q2max, 'f', 2);
+        ui->horizontalSliderMinLabel->setText(q2mins);
+        ui->horizontalSliderMaxLabel->setText(q2maxs);
     }
 
     void ControlWindow::sliderinit3(){
         radio_value = 3;
-        ui->horizontalSlider->setMinimum(-300);
-        ui->horizontalSlider->setMaximum(300);
-        ui->horizontalSliderMinLabel->setText("-3.0");
-        ui->horizontalSliderMaxLabel->setText("3.0");
+        QString q3mins;
+        QString q3maxs;
+        ui->horizontalSlider->setMinimum(q3min*1000);
+        ui->horizontalSlider->setMaximum(q3max*1000);
+        q3mins.setNum(q3min, 'f', 2);
+        q3maxs.setNum(q3max, 'f', 2);
+        ui->horizontalSliderMinLabel->setText(q3mins);
+        ui->horizontalSliderMaxLabel->setText(q3maxs);
     }
 
     void ControlWindow::sliderinit4(){
         radio_value = 4;
-        ui->horizontalSlider->setMinimum(-1);
-        ui->horizontalSlider->setMaximum(1.2);
-        ui->horizontalSliderMinLabel->setText("-1");
-        ui->horizontalSliderMaxLabel->setText("1.2");
+        QString q4mins;
+        QString q4maxs;
+        ui->horizontalSlider->setMinimum(q4min*1000);
+        ui->horizontalSlider->setMaximum(q4max*1000);
+        q4mins.setNum(q4min, 'f', 2);
+        q4maxs.setNum(q4max, 'f', 2);
+        ui->horizontalSliderMinLabel->setText(q4mins);
+        ui->horizontalSliderMaxLabel->setText(q4maxs);
     }
 
     void ControlWindow::sliderinit5(){
         radio_value = 5;
-        ui->horizontalSlider->setMinimum(-1);
-        ui->horizontalSlider->setMaximum(1.2);
-        ui->horizontalSliderMinLabel->setText("-1");
-        ui->horizontalSliderMaxLabel->setText("1.2");
+        QString q5mins;
+        QString q5maxs;
+        ui->horizontalSlider->setMinimum(q5min*1000);
+        ui->horizontalSlider->setMaximum(q5max*1000);
+        q5mins.setNum(q5min, 'f', 2);
+        q5maxs.setNum(q5max, 'f', 2);
+        ui->horizontalSliderMinLabel->setText(q5mins);
+        ui->horizontalSliderMaxLabel->setText(q5maxs);
     }
 
     void ControlWindow::sliderinit6(){
         radio_value = 6;
-        ui->horizontalSlider->setMinimum(-1);
-        ui->horizontalSlider->setMaximum(1.2);
-        ui->horizontalSliderMinLabel->setText("-1");
-        ui->horizontalSliderMaxLabel->setText("1.2");
+        QString q6mins;
+        QString q6maxs;
+        ui->horizontalSlider->setMinimum(q6min*1000);
+        ui->horizontalSlider->setMaximum(q6max*1000);
+        q6mins.setNum(q6min, 'f', 2);
+        q6maxs.setNum(q6max, 'f', 2);
+        ui->horizontalSliderMinLabel->setText(q6mins);
+        ui->horizontalSliderMaxLabel->setText(q6maxs);
     }
 
     void ControlWindow::getSliderValue(){
-        slider_value = ui->horizontalSlider->value()/100.0;
+        slider_value = ui->horizontalSlider->value()/1000.0;
         m_RobotThread.setSliderValue(slider_value, radio_value);
     }
 

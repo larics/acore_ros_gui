@@ -136,7 +136,86 @@ public:
     QLabel *q4PositionLabel;
     QLabel *q5PositionLabel;
     QLabel *q6PositionLabel;
-    QWidget *canTab;
+    QWidget *uavTab;
+    QWidget *layoutWidget;
+    QHBoxLayout *horizontalLayout_4;
+    QSpacerItem *horizontalSpacer_22;
+    QLabel *label_14;
+    QSpacerItem *horizontalSpacer_23;
+    QHBoxLayout *horizontalLayout_3;
+    QVBoxLayout *verticalLayout_7;
+    QLabel *label_15;
+    QLabel *uav_positionx_value;
+    QVBoxLayout *verticalLayout_8;
+    QLabel *label_22;
+    QLabel *uav_positiony_value;
+    QVBoxLayout *verticalLayout_9;
+    QLabel *label_23;
+    QLabel *uav_positionz_value;
+    QWidget *layoutWidget1;
+    QVBoxLayout *verticalLayout_10;
+    QHBoxLayout *horizontalLayout_5;
+    QSpacerItem *horizontalSpacer_24;
+    QLabel *label_27;
+    QSpacerItem *horizontalSpacer_25;
+    QLabel *uav_roll_disp;
+    QSpacerItem *horizontalSpacer_26;
+    QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_27;
+    QLabel *label_28;
+    QSpacerItem *horizontalSpacer_28;
+    QLabel *uav_pitch_disp;
+    QSpacerItem *horizontalSpacer_29;
+    QHBoxLayout *horizontalLayout_7;
+    QSpacerItem *horizontalSpacer_30;
+    QLabel *label_29;
+    QSpacerItem *horizontalSpacer_31;
+    QLabel *uav_yaw_disp;
+    QSpacerItem *horizontalSpacer_32;
+    QWidget *layoutWidget2;
+    QVBoxLayout *verticalLayout;
+    QPushButton *uav_position_control;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_17;
+    QLabel *label_8;
+    QSpacerItem *horizontalSpacer_8;
+    QLineEdit *uav_position_x;
+    QHBoxLayout *horizontalLayout_8;
+    QSpacerItem *horizontalSpacer_18;
+    QLabel *label_9;
+    QSpacerItem *horizontalSpacer_9;
+    QLineEdit *uav_position_y;
+    QHBoxLayout *horizontalLayout_9;
+    QSpacerItem *horizontalSpacer_19;
+    QLabel *label_10;
+    QSpacerItem *horizontalSpacer_10;
+    QLineEdit *uav_position_z;
+    QHBoxLayout *horizontalLayout_10;
+    QSpacerItem *horizontalSpacer_20;
+    QLabel *label_33;
+    QSpacerItem *horizontalSpacer_11;
+    QLineEdit *uav_position_yaw;
+    QPushButton *uav_publish_position;
+    QWidget *layoutWidget3;
+    QVBoxLayout *verticalLayout_2;
+    QPushButton *pushButton_3;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer_16;
+    QLabel *label_11;
+    QSpacerItem *horizontalSpacer_12;
+    QLineEdit *uav_angular_roll;
+    QHBoxLayout *horizontalLayout_11;
+    QSpacerItem *horizontalSpacer_15;
+    QLabel *label_12;
+    QSpacerItem *horizontalSpacer_13;
+    QLineEdit *uav_angular_pitch;
+    QHBoxLayout *horizontalLayout_12;
+    QSpacerItem *horizontalSpacer_21;
+    QLabel *label_13;
+    QSpacerItem *horizontalSpacer_14;
+    QLineEdit *uav_angular_yaw;
+    QPushButton *uav_angular_publish;
+    QWidget *cam;
 
     void setupUi(QWidget *Widget)
     {
@@ -145,7 +224,7 @@ public:
         Widget->resize(936, 600);
         tabWidget = new QTabWidget(Widget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        tabWidget->setGeometry(QRect(30, 20, 891, 551));
+        tabWidget->setGeometry(QRect(30, 20, 891, 561));
         armTab = new QWidget();
         armTab->setObjectName(QStringLiteral("armTab"));
         verticalLayoutWidget_5 = new QWidget(armTab);
@@ -641,13 +720,365 @@ public:
         armInfoLayout->addLayout(jointConfigurationLayout);
 
         tabWidget->addTab(armTab, QString());
-        canTab = new QWidget();
-        canTab->setObjectName(QStringLiteral("canTab"));
-        tabWidget->addTab(canTab, QString());
+        uavTab = new QWidget();
+        uavTab->setObjectName(QStringLiteral("uavTab"));
+        layoutWidget = new QWidget(uavTab);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(20, 310, 281, 68));
+        horizontalLayout_4 = new QHBoxLayout(layoutWidget);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        horizontalSpacer_22 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_22);
+
+        label_14 = new QLabel(layoutWidget);
+        label_14->setObjectName(QStringLiteral("label_14"));
+
+        horizontalLayout_4->addWidget(label_14);
+
+        horizontalSpacer_23 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_23);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        verticalLayout_7 = new QVBoxLayout();
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        label_15 = new QLabel(layoutWidget);
+        label_15->setObjectName(QStringLiteral("label_15"));
+
+        verticalLayout_7->addWidget(label_15);
+
+        uav_positionx_value = new QLabel(layoutWidget);
+        uav_positionx_value->setObjectName(QStringLiteral("uav_positionx_value"));
+
+        verticalLayout_7->addWidget(uav_positionx_value);
+
+
+        horizontalLayout_3->addLayout(verticalLayout_7);
+
+        verticalLayout_8 = new QVBoxLayout();
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        label_22 = new QLabel(layoutWidget);
+        label_22->setObjectName(QStringLiteral("label_22"));
+
+        verticalLayout_8->addWidget(label_22);
+
+        uav_positiony_value = new QLabel(layoutWidget);
+        uav_positiony_value->setObjectName(QStringLiteral("uav_positiony_value"));
+
+        verticalLayout_8->addWidget(uav_positiony_value);
+
+
+        horizontalLayout_3->addLayout(verticalLayout_8);
+
+        verticalLayout_9 = new QVBoxLayout();
+        verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
+        label_23 = new QLabel(layoutWidget);
+        label_23->setObjectName(QStringLiteral("label_23"));
+
+        verticalLayout_9->addWidget(label_23);
+
+        uav_positionz_value = new QLabel(layoutWidget);
+        uav_positionz_value->setObjectName(QStringLiteral("uav_positionz_value"));
+
+        verticalLayout_9->addWidget(uav_positionz_value);
+
+
+        horizontalLayout_3->addLayout(verticalLayout_9);
+
+
+        horizontalLayout_4->addLayout(horizontalLayout_3);
+
+        layoutWidget1 = new QWidget(uavTab);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(20, 380, 281, 101));
+        verticalLayout_10 = new QVBoxLayout(layoutWidget1);
+        verticalLayout_10->setObjectName(QStringLiteral("verticalLayout_10"));
+        verticalLayout_10->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalSpacer_24 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_24);
+
+        label_27 = new QLabel(layoutWidget1);
+        label_27->setObjectName(QStringLiteral("label_27"));
+
+        horizontalLayout_5->addWidget(label_27);
+
+        horizontalSpacer_25 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_25);
+
+        uav_roll_disp = new QLabel(layoutWidget1);
+        uav_roll_disp->setObjectName(QStringLiteral("uav_roll_disp"));
+
+        horizontalLayout_5->addWidget(uav_roll_disp);
+
+        horizontalSpacer_26 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_26);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_5);
+
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalSpacer_27 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_27);
+
+        label_28 = new QLabel(layoutWidget1);
+        label_28->setObjectName(QStringLiteral("label_28"));
+
+        horizontalLayout_6->addWidget(label_28);
+
+        horizontalSpacer_28 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_28);
+
+        uav_pitch_disp = new QLabel(layoutWidget1);
+        uav_pitch_disp->setObjectName(QStringLiteral("uav_pitch_disp"));
+
+        horizontalLayout_6->addWidget(uav_pitch_disp);
+
+        horizontalSpacer_29 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_29);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_6);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalSpacer_30 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_30);
+
+        label_29 = new QLabel(layoutWidget1);
+        label_29->setObjectName(QStringLiteral("label_29"));
+
+        horizontalLayout_7->addWidget(label_29);
+
+        horizontalSpacer_31 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_31);
+
+        uav_yaw_disp = new QLabel(layoutWidget1);
+        uav_yaw_disp->setObjectName(QStringLiteral("uav_yaw_disp"));
+
+        horizontalLayout_7->addWidget(uav_yaw_disp);
+
+        horizontalSpacer_32 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_32);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_7);
+
+        layoutWidget2 = new QWidget(uavTab);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(20, 41, 281, 261));
+        verticalLayout = new QVBoxLayout(layoutWidget2);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        uav_position_control = new QPushButton(layoutWidget2);
+        uav_position_control->setObjectName(QStringLiteral("uav_position_control"));
+
+        verticalLayout->addWidget(uav_position_control);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer_17 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_17);
+
+        label_8 = new QLabel(layoutWidget2);
+        label_8->setObjectName(QStringLiteral("label_8"));
+
+        horizontalLayout->addWidget(label_8);
+
+        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_8);
+
+        uav_position_x = new QLineEdit(layoutWidget2);
+        uav_position_x->setObjectName(QStringLiteral("uav_position_x"));
+
+        horizontalLayout->addWidget(uav_position_x);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalSpacer_18 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_18);
+
+        label_9 = new QLabel(layoutWidget2);
+        label_9->setObjectName(QStringLiteral("label_9"));
+
+        horizontalLayout_8->addWidget(label_9);
+
+        horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_9);
+
+        uav_position_y = new QLineEdit(layoutWidget2);
+        uav_position_y->setObjectName(QStringLiteral("uav_position_y"));
+
+        horizontalLayout_8->addWidget(uav_position_y);
+
+
+        verticalLayout->addLayout(horizontalLayout_8);
+
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalSpacer_19 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_19);
+
+        label_10 = new QLabel(layoutWidget2);
+        label_10->setObjectName(QStringLiteral("label_10"));
+
+        horizontalLayout_9->addWidget(label_10);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_10);
+
+        uav_position_z = new QLineEdit(layoutWidget2);
+        uav_position_z->setObjectName(QStringLiteral("uav_position_z"));
+
+        horizontalLayout_9->addWidget(uav_position_z);
+
+
+        verticalLayout->addLayout(horizontalLayout_9);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        horizontalSpacer_20 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_10->addItem(horizontalSpacer_20);
+
+        label_33 = new QLabel(layoutWidget2);
+        label_33->setObjectName(QStringLiteral("label_33"));
+
+        horizontalLayout_10->addWidget(label_33);
+
+        horizontalSpacer_11 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_10->addItem(horizontalSpacer_11);
+
+        uav_position_yaw = new QLineEdit(layoutWidget2);
+        uav_position_yaw->setObjectName(QStringLiteral("uav_position_yaw"));
+
+        horizontalLayout_10->addWidget(uav_position_yaw);
+
+
+        verticalLayout->addLayout(horizontalLayout_10);
+
+        uav_publish_position = new QPushButton(layoutWidget2);
+        uav_publish_position->setObjectName(QStringLiteral("uav_publish_position"));
+
+        verticalLayout->addWidget(uav_publish_position);
+
+        layoutWidget3 = new QWidget(uavTab);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(328, 41, 291, 261));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget3);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        pushButton_3 = new QPushButton(layoutWidget3);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+
+        verticalLayout_2->addWidget(pushButton_3);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalSpacer_16 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_16);
+
+        label_11 = new QLabel(layoutWidget3);
+        label_11->setObjectName(QStringLiteral("label_11"));
+
+        horizontalLayout_2->addWidget(label_11);
+
+        horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_12);
+
+        uav_angular_roll = new QLineEdit(layoutWidget3);
+        uav_angular_roll->setObjectName(QStringLiteral("uav_angular_roll"));
+
+        horizontalLayout_2->addWidget(uav_angular_roll);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_2);
+
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_11->addItem(horizontalSpacer_15);
+
+        label_12 = new QLabel(layoutWidget3);
+        label_12->setObjectName(QStringLiteral("label_12"));
+
+        horizontalLayout_11->addWidget(label_12);
+
+        horizontalSpacer_13 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_11->addItem(horizontalSpacer_13);
+
+        uav_angular_pitch = new QLineEdit(layoutWidget3);
+        uav_angular_pitch->setObjectName(QStringLiteral("uav_angular_pitch"));
+
+        horizontalLayout_11->addWidget(uav_angular_pitch);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_11);
+
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        horizontalSpacer_21 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_12->addItem(horizontalSpacer_21);
+
+        label_13 = new QLabel(layoutWidget3);
+        label_13->setObjectName(QStringLiteral("label_13"));
+
+        horizontalLayout_12->addWidget(label_13);
+
+        horizontalSpacer_14 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_12->addItem(horizontalSpacer_14);
+
+        uav_angular_yaw = new QLineEdit(layoutWidget3);
+        uav_angular_yaw->setObjectName(QStringLiteral("uav_angular_yaw"));
+
+        horizontalLayout_12->addWidget(uav_angular_yaw);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_12);
+
+        uav_angular_publish = new QPushButton(layoutWidget3);
+        uav_angular_publish->setObjectName(QStringLiteral("uav_angular_publish"));
+
+        verticalLayout_2->addWidget(uav_angular_publish);
+
+        tabWidget->addTab(uavTab, QString());
+        cam = new QWidget();
+        cam->setObjectName(QStringLiteral("cam"));
+        tabWidget->addTab(cam, QString());
 
         retranslateUi(Widget);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(Widget);
@@ -713,7 +1144,32 @@ public:
         q5PositionLabel->setText(QApplication::translate("Widget", "q5", Q_NULLPTR));
         q6PositionLabel->setText(QApplication::translate("Widget", "q6", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(armTab), QApplication::translate("Widget", "Arm Control", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(canTab), QApplication::translate("Widget", "CAN Communication", Q_NULLPTR));
+        label_14->setText(QApplication::translate("Widget", "position", Q_NULLPTR));
+        label_15->setText(QApplication::translate("Widget", "   x", Q_NULLPTR));
+        uav_positionx_value->setText(QApplication::translate("Widget", "xvalue", Q_NULLPTR));
+        label_22->setText(QApplication::translate("Widget", "    y", Q_NULLPTR));
+        uav_positiony_value->setText(QApplication::translate("Widget", "yvalue", Q_NULLPTR));
+        label_23->setText(QApplication::translate("Widget", "    z", Q_NULLPTR));
+        uav_positionz_value->setText(QApplication::translate("Widget", "zvalue", Q_NULLPTR));
+        label_27->setText(QApplication::translate("Widget", "roll:", Q_NULLPTR));
+        uav_roll_disp->setText(QApplication::translate("Widget", "roll_value", Q_NULLPTR));
+        label_28->setText(QApplication::translate("Widget", "pitch:", Q_NULLPTR));
+        uav_pitch_disp->setText(QApplication::translate("Widget", "pitch_value", Q_NULLPTR));
+        label_29->setText(QApplication::translate("Widget", "yaw:", Q_NULLPTR));
+        uav_yaw_disp->setText(QApplication::translate("Widget", "yaw_value", Q_NULLPTR));
+        uav_position_control->setText(QApplication::translate("Widget", "position control", Q_NULLPTR));
+        label_8->setText(QApplication::translate("Widget", "     x:     ", Q_NULLPTR));
+        label_9->setText(QApplication::translate("Widget", "     y:    ", Q_NULLPTR));
+        label_10->setText(QApplication::translate("Widget", "     z:    ", Q_NULLPTR));
+        label_33->setText(QApplication::translate("Widget", "  yaw:", Q_NULLPTR));
+        uav_publish_position->setText(QApplication::translate("Widget", "publish position", Q_NULLPTR));
+        pushButton_3->setText(QApplication::translate("Widget", "angular position control", Q_NULLPTR));
+        label_11->setText(QApplication::translate("Widget", "roll:", Q_NULLPTR));
+        label_12->setText(QApplication::translate("Widget", "pitch:", Q_NULLPTR));
+        label_13->setText(QApplication::translate("Widget", "yaw:", Q_NULLPTR));
+        uav_angular_publish->setText(QApplication::translate("Widget", "publish angular rotation", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(uavTab), QApplication::translate("Widget", "UAV Control", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(cam), QApplication::translate("Widget", "CAM", Q_NULLPTR));
     } // retranslateUi
 
 };
